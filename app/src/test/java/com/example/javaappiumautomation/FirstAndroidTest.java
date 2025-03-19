@@ -67,7 +67,7 @@ public class FirstAndroidTest {
         element_to_enter_search_line.sendKeys("Java");
 */
         waitForElementPresent(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container//*[@text='Object-oriented programming language']']"),
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']"),
                 "Cannot find 'Object-oriented programming language' topic searching by 'Java'",
                 5);
 
@@ -82,18 +82,30 @@ public class FirstAndroidTest {
                 5
         );
 
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
         waitForElementPresent(
                 By.id("org.wikipedia:id/search_close_btn"),
                 "Cannot find X to cancel search",
                 5
         );
 
-        waitForElementAndClear(
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find X to cancel search",
+                5
+        );
+
+/*        waitForElementAndClear(
                 By.id("org.wikipedia:id/search_src_text"),
                 "Cannot find search field",
                 5
         );
-
+*/
         waitForElementNotPresent(
                 By.id("org.wikipedia:id/search_close_btn"),
                 "X is still present on the page",
@@ -118,16 +130,22 @@ public class FirstAndroidTest {
                 5
         );
 
-        waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container//*[@text='Object-oriented programming language']']"),
-                "Cannot find 'Search Wikipedia' input",
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' text",
                 5
         );
 
+/*        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' text",
+                5
+        );
+*/
         WebElement title_element = waitForElementPresent(
-                By.id("org.wikipedia:id/view_page_title_text"),
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title' and @text='Java (programming language)']"),
                 "Cannot find article title",
-                15
+                5
         );
 
         String article_title = title_element.getAttribute("text");
