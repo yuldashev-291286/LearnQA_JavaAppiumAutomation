@@ -1,8 +1,11 @@
 package com.example.javaappiumautomation;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -25,7 +28,7 @@ public class FirstAndroidTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         capabilities.setCapability("platformName","Android");
-        capabilities.setCapability("deviceName","emulator-5556");
+        capabilities.setCapability("deviceName","emulator-5554");
         capabilities.setCapability("platformVersion","8");
         capabilities.setCapability("automationName","Appium");
         capabilities.setCapability("appPackage","org.wikipedia");
@@ -69,7 +72,7 @@ public class FirstAndroidTest {
         waitForElementPresent(
                 By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']"),
                 "Cannot find 'Object-oriented programming language' topic searching by 'Java'",
-                5);
+                15);
 
     }
 
@@ -133,7 +136,7 @@ public class FirstAndroidTest {
         waitForElementPresent(
                 By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']"),
                 "Cannot find 'Object-oriented programming language' text",
-                5
+                15
         );
 
 /*        waitForElementAndClick(
@@ -150,7 +153,7 @@ public class FirstAndroidTest {
 
         String article_title = title_element.getAttribute("text");
 
-        Assert.assertEquals(
+        assertEquals(
                 "We see unexpected title!",
                 "Java (programming language)",
                 article_title
@@ -158,6 +161,56 @@ public class FirstAndroidTest {
 
 
     }
+
+
+    // Также, необходимо написать тест, который проверяет, что поле ввода для поиска статьи содержит текст
+    // (в разных версиях приложения это могут быть тексты "Search..." или "Search Wikipedia",
+    // правильным вариантом следует считать тот, которые есть сейчас).
+    // Очевидно, что тест должен использовать написанный ранее метод.
+    @Test
+    public void checkForExpectedText(){
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+
+        String text = assertElementHasText(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Search Wikipedia",
+                "Unable to find text in the 'Wikipedia Search' box"
+        );
+
+        assertEquals("Search Wikipedia", text);
+
+        //WebElement searchWikipedia = driver.findElement(By.xpath("//*[contains(@text,'Search Wikipedia')]"));
+        //String text = searchWikipedia.getAttribute("text");
+        //System.out.println(text);
+        //assertEquals("Search Wikipedia", text);
+
+    }
+
+
+    // Необходимо написать функцию, которая проверяет наличие ожидаемого текста у элемента.
+    // Предлагается назвать ее assertElementHasText.
+    // На вход эта функция должна принимать локатор элемент, ожидаемый текст и текст ошибки,
+    // который будет написан в случае, если элемент по этому локатору не содержит текст, который мы ожидаем.
+    private String assertElementHasText(By by, String expectedText, String errorMessage) {
+
+        waitForElementPresent(by, errorMessage, 5);
+
+        WebElement searchWikipedia = driver.findElement(by);
+        String text = searchWikipedia.getAttribute("text");
+
+        if (expectedText.equals(text)) {
+            return text;
+        }else {
+            return errorMessage;
+        }
+
+    }
+
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
