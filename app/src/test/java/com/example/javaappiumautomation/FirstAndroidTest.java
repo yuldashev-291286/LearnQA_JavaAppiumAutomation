@@ -164,6 +164,46 @@ public class FirstAndroidTest {
 
     }
 
+    // Ex4*: Тест: Проверка слов в поиске.
+    // 1) Написать тест, который делает поиск по какому-то слову. Например, JAVA.
+    // 2) Затем убеждается, что в каждом результате поиска есть это слово.
+    @Test
+    public void testCheckWordsInSearch() throws InterruptedException {
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+
+        // 1) Написать тест, который делает поиск по какому-то слову. Например, JAVA.
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+
+        Thread.sleep(5000);
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_results_container"),
+                "Nothing found when searching for the word",
+                5
+        );
+
+        // 2) Затем убеждается, что в каждом результате поиска есть это слово.
+        List<WebElement> webElementList = driver.findElements(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'Java')]"));
+        webElementList.addAll(webElementList);
+
+        if (webElementList.isEmpty()) {
+            Assert.fail("Nothing found when searching for the word");
+        }
+
+    }
+
+
     // Ex3: Тест: Отмена поиска.
     // Написать тест, который:
     // 1) Ищет какое-то слово.
@@ -196,8 +236,8 @@ public class FirstAndroidTest {
         );
 
         // 2) Убеждается, что найдено несколько статей.
-        List<WebElement> webElementList = driver.findElements(By.xpath("" +
-                "(//*[@resource-id='org.wikipedia:id/page_list_item_container'])"));
+        List<WebElement> webElementList = driver.findElements(
+                By.xpath("(//*[@resource-id='org.wikipedia:id/page_list_item_container'])"));
         webElementList.addAll(webElementList);
 
         if (webElementList.isEmpty()) {
