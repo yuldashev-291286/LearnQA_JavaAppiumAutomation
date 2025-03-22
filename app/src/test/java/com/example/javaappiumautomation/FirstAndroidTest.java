@@ -1,11 +1,12 @@
 package com.example.javaappiumautomation;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -14,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -162,13 +164,83 @@ public class FirstAndroidTest {
 
     }
 
+    // Ex3: Тест: Отмена поиска.
+    // Написать тест, который:
+    // 1) Ищет какое-то слово.
+    // 2) Убеждается, что найдено несколько статей.
+    // 3) Отменяет поиск.
+    // 4) Убеждается, что результат поиска пропал
+    @Test
+    public void testCheckCancelSearch() throws InterruptedException {
 
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+
+        // 1) Ищет какое-то слово.
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+
+        Thread.sleep(5000);
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_results_container"),
+                "Nothing found when searching for the word",
+                5
+        );
+
+        // 2) Убеждается, что найдено несколько статей.
+        List<WebElement> webElementList = driver.findElements(By.xpath("" +
+                "(//*[@resource-id='org.wikipedia:id/page_list_item_container'])"));
+        webElementList.addAll(webElementList);
+
+        if (webElementList.isEmpty()) {
+            Assert.fail("Nothing found when searching for the word");
+        }
+
+        // 3) Отменяет поиск.
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find X to cancel search",
+                5
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find X to cancel search",
+                5
+        );
+
+        // 4) Убеждается, что результат поиска пропал.
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+
+    }
+
+
+    // Ex2: Создание метода.
     // Также, необходимо написать тест, который проверяет, что поле ввода для поиска статьи содержит текст
     // (в разных версиях приложения это могут быть тексты "Search..." или "Search Wikipedia",
     // правильным вариантом следует считать тот, которые есть сейчас).
     // Очевидно, что тест должен использовать написанный ранее метод.
     @Test
-    public void checkForExpectedText(){
+    public void testCheckForExpectedText(){
 
         waitForElementPresent(
                 By.id("org.wikipedia:id/search_container"),
@@ -192,6 +264,7 @@ public class FirstAndroidTest {
     }
 
 
+    // Ex2: Создание метода.
     // Необходимо написать функцию, которая проверяет наличие ожидаемого текста у элемента.
     // Предлагается назвать ее assertElementHasText.
     // На вход эта функция должна принимать локатор элемент, ожидаемый текст и текст ошибки,
