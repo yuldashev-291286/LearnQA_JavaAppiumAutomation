@@ -22,6 +22,7 @@ import java.util.List;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
 
 public class FirstAndroidTest {
 
@@ -67,15 +68,6 @@ public class FirstAndroidTest {
                 5
         );
 
-/*        WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text,'Search Wikipedia')]");
-        element_to_init_search.click();
-
-        WebElement element_to_enter_search_line = waitForElementPresentByXpath(
-                "//*[contains(@text,'Search')]",
-                "Cannot find search input"
-        );
-        element_to_enter_search_line.sendKeys("Java");
-*/
         waitForElementPresent(
                 By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']"),
                 "Cannot find 'Object-oriented programming language' topic searching by 'Java'",
@@ -110,12 +102,6 @@ public class FirstAndroidTest {
                 5
         );
 
-/*        waitForElementAndClear(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Cannot find search field",
-                5
-        );
-*/
         waitForElementNotPresent(
                 By.id("org.wikipedia:id/search_close_btn"),
                 "X is still present on the page",
@@ -146,12 +132,6 @@ public class FirstAndroidTest {
                 15
         );
 
-/*        waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']"),
-                "Cannot find 'Object-oriented programming language' text",
-                5
-        );
-*/
         WebElement title_element = waitForElementPresent(
                 By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title' and @text='Java (programming language)']"),
                 "Cannot find article title",
