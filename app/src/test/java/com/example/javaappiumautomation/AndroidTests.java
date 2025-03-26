@@ -22,9 +22,8 @@ import java.util.List;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
 
-public class FirstAndroidTest {
+public class AndroidTests {
 
     private AppiumDriver driver;
 
@@ -431,6 +430,114 @@ public class FirstAndroidTest {
 
     }
 
+    // Занятие 4. ДЗ 1. Ex5: Тест: Сохранение двух статей либо Онбординг.
+    // Написать тест, который:
+    // 1. Свайпами перелистывает экраны Onboarding.
+    // 2. При перелистывании экрана проверяет ожидаемый Title.
+    // 3. Нажимает кнопку: "Accept" на Android и “Get started” на iOS в конце Onboarding.
+    // 4. Убеждается в отображении Главного экрана.
+    @Test
+    public void testSaveTwoArticlesOrOnboarding() throws InterruptedException {
+
+        String locatorPrimaryTextView = "org.wikipedia:id/primaryTextView";
+
+        waitForElementPresent(
+                By.id(locatorPrimaryTextView),
+                "Wikipedia home page not found",
+                5
+        );
+
+        // 2. При перелистывании экрана проверяет ожидаемый Title.
+        String title = driver
+                .findElement(By.id(locatorPrimaryTextView))
+                .getAttribute("text");
+
+        assertEquals("The Free Encyclopedia\n…in over 300 languages", title);
+
+        // 1. Свайпами перелистывает экраны Onboarding.
+        swipeElementToLeft(
+                By.id(locatorPrimaryTextView),
+                "Failed to proceed to next page"
+        );
+
+        Thread.sleep(1000);
+        System.out.println(title);
+
+        // 2. При перелистывании экрана проверяет ожидаемый Title.
+        title = driver
+                .findElement(By.id(locatorPrimaryTextView))
+                .getAttribute("text");
+
+        assertEquals("New ways to explore", title);
+
+        Thread.sleep(1000);
+        System.out.println(title);
+
+        // 1. Свайпами перелистывает экраны Onboarding.
+        swipeElementToLeft(
+                By.id(locatorPrimaryTextView),
+                "Failed to proceed to next page"
+        );
+
+        // 2. При перелистывании экрана проверяет ожидаемый Title.
+        title = driver
+                .findElement(By.id(locatorPrimaryTextView))
+                .getAttribute("text");
+
+        assertEquals("Reading lists with sync", title);
+
+        Thread.sleep(1000);
+        System.out.println(title);
+
+        // 1. Свайпами перелистывает экраны Onboarding.
+        swipeElementToLeft(
+                By.id(locatorPrimaryTextView),
+                "Failed to proceed to next page"
+        );
+
+        // 2. При перелистывании экрана проверяет ожидаемый Title.
+        title = driver
+                .findElement(By.id(locatorPrimaryTextView))
+                .getAttribute("text");
+
+        assertEquals("Send anonymous data", title);
+
+        Thread.sleep(1000);
+        System.out.println(title);
+
+
+        String acceptButton = "org.wikipedia:id/acceptButton";
+        waitForElementPresent(
+                By.id(acceptButton),
+                "There are no buttons to go to the main page",
+                5
+        );
+
+        String rejectButton = "org.wikipedia:id/rejectButton";
+        waitForElementPresent(
+                By.id(rejectButton),
+                "There are no buttons to go to the main page",
+                5
+        );
+
+        // 3. Нажимает кнопку: "Accept" на Android и “Get started” на iOS в конце Onboarding.
+        waitForElementAndClick(
+                By.id(acceptButton),
+                "There are no buttons to go to the main page",
+                5
+        );
+
+        Thread.sleep(3000);
+
+        // 4. Убеждается в отображении Главного экрана.
+        waitForElementPresent(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+
+    }
 
 
 
