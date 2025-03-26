@@ -3,6 +3,7 @@ package com.example.javaappiumautomation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -504,6 +506,7 @@ public class AndroidTests {
 
         Thread.sleep(1000);
         System.out.println(title);
+        System.out.println("\n");
 
 
         String acceptButton = "org.wikipedia:id/acceptButton";
@@ -534,6 +537,62 @@ public class AndroidTests {
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Cannot find 'Search Wikipedia' input",
                 5
+        );
+
+
+    }
+
+    // Ex6: Тест: assert title
+    // Написать тест, который открывает статью и убеждается, что у нее есть элемент title.
+    // Важно: тест не должен дожидаться появления title, проверка должна производиться сразу.
+    // Если title не найден - тест падает с ошибкой. Метод можно назвать assertElementPresent.
+    @Test
+    public void testOpenArticleAndMakeSureThatSheHasTitleElement() throws InterruptedException {
+
+        // Онбординг.
+        testSaveTwoArticlesOrOnboarding();
+
+        waitForElementPresent(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+
+        Thread.sleep(5000);
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' text",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' text",
+                5
+
+        );
+
+        Thread.sleep(2000);
+
+        assertElementPresent(
+                // Передаю локатор несуществующего элемента, чтобы проверить кейс,
+                // когда элемент не успел загрузиться на страницу
+                By.id("org.wikipedia:id/page_title"),
+                "Element not found on page."
         );
 
 
@@ -697,6 +756,30 @@ public class AndroidTests {
             return text;
         }else {
             return errorMessage;
+        }
+
+    }
+
+    // Ex6: Тест: assert title
+    // Написать тест, который открывает статью и убеждается, что у нее есть элемент title.
+    // Важно: тест не должен дожидаться появления title, проверка должна производиться сразу.
+    // Если title не найден - тест падает с ошибкой. Метод можно назвать assertElementPresent.
+    private String assertElementPresent(By by, String error_message) {
+
+        WebElement webElement = null;
+        try{
+            webElement = driver.findElement(by);
+        }catch (NoSuchElementException e){
+            System.out.println("Element not found on page.");
+            Assert.fail(error_message);
+            return error_message;
+        }
+
+        if (webElement.isDisplayed()){
+            System.out.println("Element found on page.");
+            return "Element found on page.";
+        }else {
+            return error_message;
         }
 
     }
