@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.openqa.selenium.ScreenOrientation.LANDSCAPE;
+import static org.openqa.selenium.ScreenOrientation.PORTRAIT;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -362,7 +364,7 @@ public class AndroidTests {
                 5
         );
 
-        driver.rotate(ScreenOrientation.LANDSCAPE);
+        driver.rotate(LANDSCAPE);
 
         String title_after_rotation = waitForElementAndGetAttribute(
                 By.xpath("//*[contains(@text,'Wikipedia')]"),
@@ -377,7 +379,7 @@ public class AndroidTests {
                 title_after_rotation
         );
 
-        driver.rotate(ScreenOrientation.PORTRAIT);
+        driver.rotate(PORTRAIT);
 
         String title_after_second_rotation = waitForElementAndGetAttribute(
                 By.xpath("//*[contains(@text,'Wikipedia')]"),
@@ -549,8 +551,17 @@ public class AndroidTests {
     @Test
     public void testOpenArticleAndMakeSureThatSheHasTitleElement() throws InterruptedException {
 
-        // Онбординг.
-        testSaveTwoArticlesOrOnboarding();
+        waitForElementPresent(
+                By.xpath("//*[contains(@text,'Skip')]"),
+                "Cannot find 'Skip' button",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Skip')]"),
+                "Cannot find 'Skip' button",
+                5
+        );
 
         waitForElementPresent(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
@@ -736,6 +747,57 @@ public class AndroidTests {
         //String text = searchWikipedia.getAttribute("text");
         //System.out.println(text);
         //assertEquals("Search Wikipedia", text);
+
+    }
+
+
+    // Ex7*: Поворот экрана.
+    //
+    // Appium устроен так, что может сохранить у себя в памяти поворот экрана, который использовался в предыдущем тесте,
+    // и начать новый тест с тем же поворотом. Мы написали тест на поворот экрана, и он может сломаться до того,
+    // как положение экрана восстановится. Следовательно, если мы запустим несколько тестов одновременно,
+    // последующие тесты будут выполняться в неправильном положении экрана, что может привести к незапланированным проблемам.
+    //
+    // Как нам сделать так, чтобы после теста на поворот экрана сам экран всегда оказывался в правильном положении,
+    // даже если тест упал в тот момент, когда экран был наклонен?
+    @Test
+    public void testScreenRotation() throws InterruptedException {
+
+        // Для примера. Из предыдущего теста вернулась ориентация экрана LANDSCAPE.
+        driver.rotate(LANDSCAPE);
+        System.out.println(driver.getOrientation());
+
+        // В начале теста ставим положение экрана в портретный режим.
+        returnScreenOrientationPortrait(driver.getOrientation());
+        System.out.println(driver.getOrientation());
+
+        waitForElementPresent(
+                By.xpath("//*[contains(@text,'Skip')]"),
+                "Cannot find 'Skip' button",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Skip')]"),
+                "Cannot find 'Skip' button",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+    }
+
+    // Ex7*: Поворот экрана.
+    // Функция, которая возвращает положение экрана в портретный режим.
+    private ScreenOrientation returnScreenOrientationPortrait(ScreenOrientation screenOrientation){
+        if (screenOrientation.equals(LANDSCAPE)){
+            driver.rotate(PORTRAIT);
+        }
+        return PORTRAIT;
 
     }
 
