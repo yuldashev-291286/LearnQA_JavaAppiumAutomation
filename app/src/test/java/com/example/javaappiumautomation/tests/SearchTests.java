@@ -153,5 +153,56 @@ public class SearchTests extends CoreTestCase {
 
     }
 
+    // Написать тест, который будет делать поиск по любому запросу на ваш выбор
+    // (поиск по этому слову должен возвращать как минимум 3 результата).
+    // Далее тест должен убеждаться, что в результате поиска присутствуют три элемента,
+    // содержащие ожидаемые вами article_title и article_description.
+    // Пример проверки одного из элементов:
+    // your_page.waitForElementByTitleAndDescription("title_A","article_A_description");
+    @Test
+    public void testSearchElementByHeadAndDescription() throws InterruptedException {
+
+        onboardingPageObject.waitSkipAndClick();
+
+        searchPageObject.initSearchInput();
+
+        // Слово, по которому делаем поиск, результат которого не менее трех статей.
+        String searchLine = "Java";
+        // Слово, по которому делаем поиск, результат которого менее трех статей.
+        // String searchLine = "test123";
+
+        searchPageObject.typeSearchLine(searchLine);
+
+        Thread.sleep(5000);
+
+        // Убеждаемся, что найдено не менее трех статей.
+        searchPageObject.checkThatAtLeastThreeArticlesWereFound();
+
+        // Первый ожидаемый результат в поиске.
+        String resultOfSearchWithTitleContains = "Java (programming language)";
+        String resultOfSearchWithDescriptionContains = "Object-oriented programming language";
+        searchPageObject.waitForElementByTitleAndDescription(
+                resultOfSearchWithTitleContains,
+                resultOfSearchWithDescriptionContains);
+
+        // Второй ожидаемый результат в поиске.
+        resultOfSearchWithTitleContains = "JavaScript";
+        resultOfSearchWithDescriptionContains = "High-level programming language";
+        searchPageObject.waitForElementByTitleAndDescription(
+                resultOfSearchWithTitleContains,
+                resultOfSearchWithDescriptionContains);
+
+        // Третий ожидаемый результат в поиске.
+        resultOfSearchWithTitleContains = "Java version history";
+        resultOfSearchWithDescriptionContains = "List of versions of the Java programming language";
+        searchPageObject.waitForElementByTitleAndDescription(
+                resultOfSearchWithTitleContains,
+                resultOfSearchWithDescriptionContains);
+
+
+
+    }
+
+
 
 }

@@ -12,7 +12,6 @@ public class SearchPageObject extends MainPageObject {
 
     private static final String
             SEARCH_INIT_ELEMENT = "//*[contains(@text,'Search Wikipedia')]",
-            //SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='{SUBSTRING}']",
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title' and @text='{SUBSTRING}']",
             SEARCH_RESULT_BY_CONTAINS_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'{SUBSTRING}')]",
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
@@ -21,7 +20,10 @@ public class SearchPageObject extends MainPageObject {
             SEARCH_RESULT_ELEMENT = "org.wikipedia:id/page_list_item_title",
             SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results']",
             SELECT_ITEM_LIST = "//*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']",
-            NON_EXISTENT_ELEMENT = "org.wikipedia:id/page_title";
+            NON_EXISTENT_ELEMENT = "org.wikipedia:id/page_title",
+            SELECT_ITEM_WITH_TITLE_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'{SUBSTRING}')]",
+            SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description' and contains(@text,'{SUBSTRING}')]";
+
 
     public SearchPageObject(AppiumDriver driver){
         super(driver);
@@ -37,8 +39,44 @@ public class SearchPageObject extends MainPageObject {
         return SEARCH_RESULT_BY_CONTAINS_SUBSTRING_TPL.replace("{SUBSTRING}", subString);
     }
 
+    // Подобрать локатор, который находит результат поиска одновременно
+    // по заголовку и описанию (если заголовок или описание отличается - элемент не находится).
+    // Добавить соответствующий метод в секцию TEMPLATES METHODS класса SearchPageObject.
+    private static String getResultWithTitle(String subString){
+        return SELECT_ITEM_WITH_TITLE_SUBSTRING_TPL.replace("{SUBSTRING}", subString);
+    }
+
+    // Подобрать локатор, который находит результат поиска одновременно
+    // по заголовку и описанию (если заголовок или описание отличается - элемент не находится).
+    // Добавить соответствующий метод в секцию TEMPLATES METHODS класса SearchPageObject.
+    private static String getResultWithDescription(String subString){
+        return SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL.replace("{SUBSTRING}", subString);
+    }
+
     // TEMPLATES METHODS
 
+    // В этот же класс добавить метод waitForElementByTitleAndDescription(String title, String description).
+    // Он должен дожидаться результата поиска по двум строкам - по заголовку и описанию.
+    // Если такой элемент не появляется, тест должен упасть с читаемой и понятной ошибкой.
+    public void waitForElementByTitleAndDescription(String title, String description){
+
+        String searchResultTitleXpath = getResultWithTitle(title);
+        String searchResultDescriptionXpath = getResultWithDescription(description);
+
+        this.waitForElementPresent(
+                By.xpath(searchResultTitleXpath),
+                "Cannot find search result with title: " + title,
+                5
+        );
+
+        this.waitForElementPresent(
+                By.xpath(searchResultDescriptionXpath),
+                "Cannot find search result with description: " + description,
+                5
+        );
+
+
+    }
 
     public void initSearchInput(){
 
@@ -181,12 +219,12 @@ public class SearchPageObject extends MainPageObject {
         webElementList.addAll(webElementList);
 
         if (webElementList.isEmpty()) {
-            Assert.fail("Nothing found when searching for the word");
+            Assert.fail("Nothing found when searching for the word.");
         }
 
     }
 
-    // Убеждается, что найдено несколько статей.
+    // Убеждаемся, что найдено несколько статей.
     public void makesSureMultipleArticlesAreFound(){
 
         List<WebElement> webElementList =
@@ -194,10 +232,24 @@ public class SearchPageObject extends MainPageObject {
         webElementList.addAll(webElementList);
 
         if (webElementList.isEmpty()) {
-            Assert.fail("Nothing found when searching for the word");
+            Assert.fail("Nothing found when searching for the word.");
         }
 
     }
+
+    // Убеждаемся, что найдено не менее трех статей.
+    public void checkThatAtLeastThreeArticlesWereFound(){
+
+        List<WebElement> webElementList =
+                driver.findElements(By.id(SEARCH_RESULT_ELEMENT));
+        webElementList.addAll(webElementList);
+
+        if (webElementList.size() < 3) {
+            Assert.fail("Less than three articles found.");
+        }
+
+    }
+
 
     // Убеждается, что результат поиска пропал.
     public void makesSureSearchResultIsGone(){
