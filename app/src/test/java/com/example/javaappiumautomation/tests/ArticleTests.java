@@ -5,31 +5,32 @@ import org.junit.Test;
 import com.example.javaappiumautomation.lib.CoreTestCase;
 import com.example.javaappiumautomation.lib.ui.ArticlePageObject;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
-import com.example.javaappiumautomation.lib.ui.SkipPageObject;
+import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
 
 public class ArticleTests extends CoreTestCase {
 
-    private SkipPageObject skipPageObject;
+    private OnboardingPageObject onboardingPageObject;
+    private SearchPageObject searchPageObject;
+    private ArticlePageObject articlePageObject;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        skipPageObject = new SkipPageObject(driver);
+        onboardingPageObject = new OnboardingPageObject(driver);
+        searchPageObject = new SearchPageObject(driver);
+        articlePageObject = new ArticlePageObject(driver);
     }
 
 
     @Test
     public void testCompareArticleTitle() {
 
-        skipPageObject.waitSkipAndClick();
-
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        onboardingPageObject.waitSkipAndClick();
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
         searchPageObject.clickByArticleWithSubstring("Java (programming language)");
 
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         articlePageObject.waitForTitleElement();
 
         String article_title = articlePageObject.getArticleTitle();
@@ -46,9 +47,7 @@ public class ArticleTests extends CoreTestCase {
     @Test
     public void testSwipeArticle() throws InterruptedException {
 
-        skipPageObject.waitSkipAndClick();
-
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        onboardingPageObject.waitSkipAndClick();
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -57,9 +56,26 @@ public class ArticleTests extends CoreTestCase {
 
         searchPageObject.clickByArticleWithSubstring("Java (programming language)");
 
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         articlePageObject.waitForTitleElement();
         articlePageObject.swipeToFooter();
+
+    }
+
+    // Ex6: Тест: assert title
+    // Написать тест, который открывает статью и убеждается, что у нее есть элемент title.
+    // Важно: тест не должен дожидаться появления title, проверка должна производиться сразу.
+    // Если title не найден - тест падает с ошибкой. Метод можно назвать assertElementPresent.
+    @Test
+    public void testOpenArticleAndMakeSureThatSheHasTitleElement() {
+
+        onboardingPageObject.waitSkipAndClick();
+
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
+
+        searchPageObject.waitAndClickOnSelectedItemInList();
+
+        searchPageObject.checkThatElementHasNotYetLoadedOntoPage();
 
     }
 

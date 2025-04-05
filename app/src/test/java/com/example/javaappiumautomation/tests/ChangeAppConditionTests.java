@@ -5,16 +5,20 @@ import org.junit.Test;
 import com.example.javaappiumautomation.lib.CoreTestCase;
 import com.example.javaappiumautomation.lib.ui.ArticlePageObject;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
-import com.example.javaappiumautomation.lib.ui.SkipPageObject;
+import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
 
 public class ChangeAppConditionTests extends CoreTestCase {
 
-    private SkipPageObject skipPageObject;
+    private OnboardingPageObject onboardingPageObject;
+    private SearchPageObject searchPageObject;
+    private ArticlePageObject articlePageObject;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        skipPageObject = new SkipPageObject(driver);
+        onboardingPageObject = new OnboardingPageObject(driver);
+        searchPageObject = new SearchPageObject(driver);
+        articlePageObject = new ArticlePageObject(driver);
     }
 
 
@@ -22,15 +26,12 @@ public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testChangeScreenOrientationOnSearchResults() {
 
-        skipPageObject.waitSkipAndClick();
-
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        onboardingPageObject.waitSkipAndClick();
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
         searchPageObject.clickByArticleWithSubstring("Java (programming language)");
 
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         String title_before_rotation = articlePageObject.getArticleTitle();
 
         this.rotateScreenLANDSCAPE();
@@ -60,9 +61,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testCheckSearchArticleInBackground() {
 
-        skipPageObject.waitSkipAndClick();
-
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        onboardingPageObject.waitSkipAndClick();
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -74,5 +73,34 @@ public class ChangeAppConditionTests extends CoreTestCase {
         searchPageObject.waitForSearchResult("Java (programming language)");
 
     }
+
+
+    // Ex7*: Поворот экрана.
+    //
+    // Appium устроен так, что может сохранить у себя в памяти поворот экрана, который использовался в предыдущем тесте,
+    // и начать новый тест с тем же поворотом. Мы написали тест на поворот экрана, и он может сломаться до того,
+    // как положение экрана восстановится. Следовательно, если мы запустим несколько тестов одновременно,
+    // последующие тесты будут выполняться в неправильном положении экрана, что может привести к незапланированным проблемам.
+    //
+    // Как нам сделать так, чтобы после теста на поворот экрана сам экран всегда оказывался в правильном положении,
+    // даже если тест упал в тот момент, когда экран был наклонен?
+    @Test
+    public void testScreenRotation() {
+
+        // Для примера. Из предыдущего теста вернулась ориентация экрана LANDSCAPE.
+        this.rotateScreenLANDSCAPE();
+        System.out.println(driver.getOrientation());
+
+        // В начале теста ставим положение экрана в портретный режим.
+        this.rotateScreenPortrait();
+        //mainPageObject.returnScreenOrientationPortrait(driver.getOrientation());
+        System.out.println(driver.getOrientation());
+
+        onboardingPageObject.waitSkipAndClick();
+
+        searchPageObject.initSearchInput();
+
+    }
+
 
 }

@@ -7,16 +7,24 @@ import com.example.javaappiumautomation.lib.ui.ArticlePageObject;
 import com.example.javaappiumautomation.lib.ui.MyListsPageObject;
 import com.example.javaappiumautomation.lib.ui.NavigationUI;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
-import com.example.javaappiumautomation.lib.ui.SkipPageObject;
+import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
 
 public class MyListsTests extends CoreTestCase {
 
-    private SkipPageObject skipPageObject;
+    private OnboardingPageObject onboardingPageObject;
+    private SearchPageObject searchPageObject;
+    private ArticlePageObject articlePageObject;
+    private NavigationUI navigationUI;
+    private MyListsPageObject myListsPageObject;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        skipPageObject = new SkipPageObject(driver);
+        onboardingPageObject = new OnboardingPageObject(driver);
+        searchPageObject = new SearchPageObject(driver);
+        articlePageObject = new ArticlePageObject(driver);
+        navigationUI = new NavigationUI(driver);
+        myListsPageObject = new MyListsPageObject(driver);
     }
 
 
@@ -24,15 +32,11 @@ public class MyListsTests extends CoreTestCase {
     @Test
     public void testSaveFirstArticleToMyList() throws InterruptedException {
 
-        skipPageObject.waitSkipAndClick();
-
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        onboardingPageObject.waitSkipAndClick();
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
         searchPageObject.clickByArticleWithSubstring("Java (programming language)");
-
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
 
         Thread.sleep(5000);
 
@@ -44,13 +48,10 @@ public class MyListsTests extends CoreTestCase {
         articlePageObject.addArticleToMyList(name_of_folder);
         articlePageObject.closeArticle();
 
-        NavigationUI navigationUI = new NavigationUI(driver);
         navigationUI.clickMyLists();
 
-        MyListsPageObject myListsPageObject = new MyListsPageObject(driver);
         myListsPageObject.openFolderByName(name_of_folder);
         myListsPageObject.swipeByArticleToDelete(article_title);
-
 
     }
 

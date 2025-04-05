@@ -79,7 +79,6 @@ public class ArticlePageObject extends MainPageObject {
                 5
         );
 
-
     }
 
     public void closeArticle(){
@@ -89,7 +88,6 @@ public class ArticlePageObject extends MainPageObject {
                 "Cannot close article, cannot find X link",
                 5
         );
-
 
     }
 
