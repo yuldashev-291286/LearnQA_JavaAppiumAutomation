@@ -45,7 +45,7 @@ public class MyListsTests extends CoreTestCase {
         String article_title = articlePageObject.getArticleTitle();
         String name_of_folder = "Learning programming";
 
-        articlePageObject.addArticleToMyList(name_of_folder);
+        articlePageObject.addArticleToMyList(name_of_folder); // Тест всегда падает на этом месте.
         articlePageObject.closeArticle();
 
         navigationUI.clickMyLists();

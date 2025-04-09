@@ -9,14 +9,12 @@ import org.junit.Test;
 
 public class OnboardingTests extends CoreTestCase {
 
-    private MainPageObject mainPageObject;
     private OnboardingPageObject onboardingPageObject;
     private SearchPageObject searchPageObject;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        mainPageObject = new MainPageObject(driver);
         onboardingPageObject = new OnboardingPageObject(driver);
         searchPageObject = new SearchPageObject(driver);
     }
