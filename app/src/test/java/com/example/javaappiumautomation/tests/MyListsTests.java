@@ -3,11 +3,17 @@ package com.example.javaappiumautomation.tests;
 import org.junit.Test;
 
 import com.example.javaappiumautomation.lib.CoreTestCase;
+import com.example.javaappiumautomation.lib.Platform;
 import com.example.javaappiumautomation.lib.ui.ArticlePageObject;
 import com.example.javaappiumautomation.lib.ui.MyListsPageObject;
 import com.example.javaappiumautomation.lib.ui.NavigationUI;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
 import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
+import com.example.javaappiumautomation.lib.ui.factories.ArticlePageObjectFactory;
+import com.example.javaappiumautomation.lib.ui.factories.MyListsPageObjectFactory;
+import com.example.javaappiumautomation.lib.ui.factories.NavigationUIFactory;
+import com.example.javaappiumautomation.lib.ui.factories.OnboardingPageObjectFactory;
+import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory;
 
 public class MyListsTests extends CoreTestCase {
 
@@ -16,15 +22,16 @@ public class MyListsTests extends CoreTestCase {
     private ArticlePageObject articlePageObject;
     private NavigationUI navigationUI;
     private MyListsPageObject myListsPageObject;
+    private static final String name_of_folder = "Learning programming";
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        onboardingPageObject = new OnboardingPageObject(driver);
-        searchPageObject = new SearchPageObject(driver);
-        articlePageObject = new ArticlePageObject(driver);
-        navigationUI = new NavigationUI(driver);
-        myListsPageObject = new MyListsPageObject(driver);
+        onboardingPageObject = OnboardingPageObjectFactory.get(driver);
+        searchPageObject =  SearchPageObjectFactory.get(driver);
+        articlePageObject = ArticlePageObjectFactory.get(driver);
+        navigationUI = NavigationUIFactory.get(driver);
+        myListsPageObject = MyListsPageObjectFactory.get(driver);
     }
 
 
@@ -43,14 +50,22 @@ public class MyListsTests extends CoreTestCase {
         articlePageObject.waitForTitleElement();
 
         String article_title = articlePageObject.getArticleTitle();
-        String name_of_folder = "Learning programming";
 
-        articlePageObject.addArticleToMyList(name_of_folder); // Тест всегда падает на этом месте.
+        if (Platform.getInstance().isAndroid()){
+            articlePageObject.addArticleToMyList(name_of_folder); // Тест всегда падает на этом месте.
+        } else {
+            articlePageObject.addArticlesToMySaved();
+        }
+
         articlePageObject.closeArticle();
 
         navigationUI.clickMyLists();
 
-        myListsPageObject.openFolderByName(name_of_folder);
+        if (Platform.getInstance().isAndroid()){
+            myListsPageObject.openFolderByName(name_of_folder);
+
+        }
+
         myListsPageObject.swipeByArticleToDelete(article_title);
 
     }

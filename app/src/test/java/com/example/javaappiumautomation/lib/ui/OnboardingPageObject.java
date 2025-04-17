@@ -4,18 +4,17 @@ import org.openqa.selenium.By;
 
 import io.appium.java_client.AppiumDriver;
 
-public class OnboardingPageObject extends MainPageObject {
+abstract public class OnboardingPageObject extends MainPageObject {
 
     public OnboardingPageObject(AppiumDriver driver){
         super(driver);
     }
 
-    private static final String
-            SKIP_BUTTON = "id:org.wikipedia:id/fragment_onboarding_skip_button",
-            PRIMARY_TEXT_VIEW = "id:org.wikipedia:id/primaryTextView",
-            ACCEPT_BUTTON = "id:org.wikipedia:id/acceptButton",
-            REJECT_BUTTON = "id:org.wikipedia:id/rejectButton";
-
+    protected static String
+            SKIP_BUTTON,
+            PRIMARY_TEXT_VIEW,
+            ACCEPT_BUTTON,
+            REJECT_BUTTON;
 
     public void waitSkipAndClick(){
 

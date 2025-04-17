@@ -8,21 +8,21 @@ import java.util.List;
 
 import io.appium.java_client.AppiumDriver;
 
-public class SearchPageObject extends MainPageObject {
+abstract public class SearchPageObject extends MainPageObject {
 
-    private static final String
-            SEARCH_INIT_ELEMENT = "xpath://*[contains(@text,'Search Wikipedia')]",
-            SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title' and @text='{SUBSTRING}']",
-            SEARCH_RESULT_BY_CONTAINS_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'{SUBSTRING}')]",
-            SEARCH_CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn",
-            SEARCH_RESULT_IS_EMPTY = "id:org.wikipedia:id/search_container",
-            SEARCH_RESULT_LIST = "id:org.wikipedia:id/search_results_list",
-            SEARCH_RESULT_ELEMENT = "id:org.wikipedia:id/page_list_item_title",
-            SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text='No results']",
-            SELECT_ITEM_LIST = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']",
-            NON_EXISTENT_ELEMENT = "id:org.wikipedia:id/page_title",
-            SELECT_ITEM_WITH_TITLE_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'{SUBSTRING}')]",
-            SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description' and contains(@text,'{SUBSTRING}')]";
+    protected static String
+            SEARCH_INIT_ELEMENT,
+            SEARCH_RESULT_BY_SUBSTRING_TPL,
+            SEARCH_RESULT_BY_CONTAINS_SUBSTRING_TPL,
+            SEARCH_CANCEL_BUTTON,
+            SEARCH_RESULT_IS_EMPTY,
+            SEARCH_RESULT_LIST,
+            SEARCH_RESULT_ELEMENT,
+            SEARCH_EMPTY_RESULT_ELEMENT,
+            SELECT_ITEM_LIST,
+            NON_EXISTENT_ELEMENT,
+            SELECT_ITEM_WITH_TITLE_SUBSTRING_TPL,
+            SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL;
 
 
     public SearchPageObject(AppiumDriver driver){

@@ -1,15 +1,19 @@
-package com.example.javaappiumautomation.tests.iOS;
+package com.example.javaappiumautomation.tests;
 
-import com.example.javaappiumautomation.lib.iOSTestCase;
+import com.example.javaappiumautomation.lib.CoreTestCase;
+import com.example.javaappiumautomation.lib.Platform;
 import com.example.javaappiumautomation.lib.ui.WelcomePageObject;
 
 import org.junit.Test;
 
-public class GetStartedTest extends iOSTestCase {
+public class GetStartedTest extends CoreTestCase {
 
     @Test
     public void testPassThroughWelcome(){
 
+        if (Platform.getInstance().isAndroid()){
+            return;
+        }
         WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
 
         welcomePageObject.waitForLearnMoreLink();
@@ -26,7 +30,6 @@ public class GetStartedTest extends iOSTestCase {
 
 
     }
-
 
 
 }

@@ -5,6 +5,8 @@ import org.junit.Test;
 import com.example.javaappiumautomation.lib.CoreTestCase;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
 import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
+import com.example.javaappiumautomation.lib.ui.factories.OnboardingPageObjectFactory;
+import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory;
 
 
 public class SearchTests extends CoreTestCase {
@@ -15,8 +17,8 @@ public class SearchTests extends CoreTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        onboardingPageObject = new OnboardingPageObject(driver);
-        searchPageObject = new SearchPageObject(driver);
+        onboardingPageObject = OnboardingPageObjectFactory.get(driver);
+        searchPageObject =  SearchPageObjectFactory.get(driver);
     }
 
 
