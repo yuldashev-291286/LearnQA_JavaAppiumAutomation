@@ -2,6 +2,8 @@ package com.example.javaappiumautomation.lib.ui.android;
 
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 
 public class AndroidSearchPageObject extends SearchPageObject {
@@ -15,13 +17,12 @@ public class AndroidSearchPageObject extends SearchPageObject {
                 SEARCH_RESULT_LIST = "id:org.wikipedia:id/search_results_list";
                 SEARCH_RESULT_ELEMENT = "id:org.wikipedia:id/page_list_item_title";
                 SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text='No results']";
-                SELECT_ITEM_LIST = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']";
                 NON_EXISTENT_ELEMENT = "id:org.wikipedia:id/page_title";
                 SELECT_ITEM_WITH_TITLE_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'{SUBSTRING}')]";
                 SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description' and contains(@text,'{SUBSTRING}')]";
     }
 
-    public AndroidSearchPageObject(AppiumDriver driver){
+    public AndroidSearchPageObject(RemoteWebDriver driver){
         super(driver);
     }
 

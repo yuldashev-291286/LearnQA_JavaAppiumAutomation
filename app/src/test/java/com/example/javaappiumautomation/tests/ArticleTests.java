@@ -3,6 +3,7 @@ package com.example.javaappiumautomation.tests;
 import org.junit.Test;
 
 import com.example.javaappiumautomation.lib.CoreTestCase;
+import com.example.javaappiumautomation.lib.Platform;
 import com.example.javaappiumautomation.lib.ui.ArticlePageObject;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
 import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
@@ -28,7 +29,9 @@ public class ArticleTests extends CoreTestCase {
     @Test
     public void testCompareArticleTitle() {
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -50,12 +53,14 @@ public class ArticleTests extends CoreTestCase {
     @Test
     public void testSwipeArticle() throws InterruptedException {
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
 
-        Thread.sleep(5000);
+        Thread.sleep(2000);
 
         searchPageObject.clickByArticleWithSubstring("Java (programming language)");
 
@@ -71,7 +76,9 @@ public class ArticleTests extends CoreTestCase {
     @Test
     public void testOpenArticleAndMakeSureThatSheHasTitleElement() {
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");

@@ -1,6 +1,7 @@
 package com.example.javaappiumautomation.tests;
 
 import com.example.javaappiumautomation.lib.CoreTestCase;
+import com.example.javaappiumautomation.lib.Platform;
 import com.example.javaappiumautomation.lib.ui.MainPageObject;
 import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
@@ -31,7 +32,10 @@ public class OnboardingTests extends CoreTestCase {
     @Test
     public void testSaveTwoArticlesOrOnboarding() throws InterruptedException {
 
-        onboardingPageObject.onboardingHomePage();
+        if (Platform.getInstance().isMW()){
+            return;
+
+        }
 
         // При перелистывании экрана проверяет ожидаемый Title.
         String actualTitle = onboardingPageObject.actualTitle();

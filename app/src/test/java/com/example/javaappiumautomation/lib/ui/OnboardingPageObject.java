@@ -1,12 +1,13 @@
 package com.example.javaappiumautomation.lib.ui;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import io.appium.java_client.AppiumDriver;
 
 abstract public class OnboardingPageObject extends MainPageObject {
 
-    public OnboardingPageObject(AppiumDriver driver){
+    public OnboardingPageObject(RemoteWebDriver driver){
         super(driver);
     }
 

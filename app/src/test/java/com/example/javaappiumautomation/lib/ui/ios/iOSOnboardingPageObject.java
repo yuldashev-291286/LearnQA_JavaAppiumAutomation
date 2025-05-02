@@ -2,6 +2,8 @@ package com.example.javaappiumautomation.lib.ui.ios;
 
 import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 
 public class iOSOnboardingPageObject extends OnboardingPageObject {
@@ -13,7 +15,7 @@ public class iOSOnboardingPageObject extends OnboardingPageObject {
         REJECT_BUTTON = "id:org.wikipedia:id/rejectButton";
     }
 
-    public iOSOnboardingPageObject(AppiumDriver driver){
+    public iOSOnboardingPageObject(RemoteWebDriver driver){
         super(driver);
 
     }

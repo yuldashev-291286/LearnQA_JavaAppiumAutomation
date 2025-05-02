@@ -2,6 +2,8 @@ package com.example.javaappiumautomation.lib.ui.ios;
 
 import com.example.javaappiumautomation.lib.ui.NavigationUI;
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 
 public class iOSNavigationUI extends NavigationUI {
@@ -10,7 +12,7 @@ public class iOSNavigationUI extends NavigationUI {
         MY_LISTS_LINK = "xpath://android.widget.FrameLayout[@content-desc='My lists']";
     }
 
-    public iOSNavigationUI(AppiumDriver driver){
+    public iOSNavigationUI(RemoteWebDriver driver){
         super(driver);
 
     }

@@ -2,6 +2,8 @@ package com.example.javaappiumautomation.lib.ui.android;
 
 import com.example.javaappiumautomation.lib.ui.ArticlePageObject;
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 
 public class AndroidArticlePageObject extends ArticlePageObject {
@@ -17,7 +19,7 @@ public class AndroidArticlePageObject extends ArticlePageObject {
         CLOSE_ARTICLE_BUTTON = "xpath://android.widget.ImageButton[@content-desc='Navigate up']";
     }
 
-    public AndroidArticlePageObject(AppiumDriver driver){
+    public AndroidArticlePageObject(RemoteWebDriver driver){
         super(driver);
     }
 

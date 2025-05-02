@@ -2,6 +2,8 @@ package com.example.javaappiumautomation.lib.ui.ios;
 
 import com.example.javaappiumautomation.lib.ui.MyListsPageObject;
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 
 public class iOSMyListsPageObject extends MyListsPageObject {
@@ -11,7 +13,7 @@ public class iOSMyListsPageObject extends MyListsPageObject {
         ARTICLE_BY_TITLE_TPL = "xpath://*[@text='{TITLE}'";
     }
 
-    public iOSMyListsPageObject(AppiumDriver driver){
+    public iOSMyListsPageObject(RemoteWebDriver driver){
         super(driver);
     }
 

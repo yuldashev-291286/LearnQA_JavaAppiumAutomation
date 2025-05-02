@@ -1,8 +1,11 @@
 package com.example.javaappiumautomation.lib.ui;
 
+import com.example.javaappiumautomation.lib.Platform;
+
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.List;
 
@@ -12,6 +15,8 @@ abstract public class SearchPageObject extends MainPageObject {
 
     protected static String
             SEARCH_INIT_ELEMENT,
+            SEARCH_INIT_ELEMENT_WEB,
+            SEARCH_WIKIPEDIA_PLACEHOLDER,
             SEARCH_RESULT_BY_SUBSTRING_TPL,
             SEARCH_RESULT_BY_CONTAINS_SUBSTRING_TPL,
             SEARCH_CANCEL_BUTTON,
@@ -20,12 +25,14 @@ abstract public class SearchPageObject extends MainPageObject {
             SEARCH_RESULT_ELEMENT,
             SEARCH_EMPTY_RESULT_ELEMENT,
             SELECT_ITEM_LIST,
+            SELECT_ITEM_LIST_WEB = "xpath://div[contains(text(),'Object-oriented programming language')]",
             NON_EXISTENT_ELEMENT,
+            NON_EXISTENT_ELEMENT_WEB = "xpath://div/t",
             SELECT_ITEM_WITH_TITLE_SUBSTRING_TPL,
             SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL;
 
 
-    public SearchPageObject(AppiumDriver driver){
+    public SearchPageObject(RemoteWebDriver driver){
         super(driver);
     }
 
@@ -63,34 +70,68 @@ abstract public class SearchPageObject extends MainPageObject {
         String searchResultTitleXpath = getResultWithTitle(title);
         String searchResultDescriptionXpath = getResultWithDescription(description);
 
-        this.waitForElementPresent(
-                searchResultTitleXpath,
-                "Cannot find search result with title: " + title,
-                5
-        );
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
 
-        this.waitForElementPresent(
-                searchResultDescriptionXpath,
-                "Cannot find search result with description: " + description,
-                5
-        );
+            this.waitForElementPresent(
+                    searchResultTitleXpath,
+                    "Cannot find search result with title: " + title,
+                    5
+            );
+
+            this.waitForElementPresent(
+                    searchResultDescriptionXpath,
+                    "Cannot find search result with description: " + description,
+                    5
+            );
+
+        } else if (Platform.getInstance().isMW()){
+
+            this.waitForElementPresent(
+                    searchResultTitleXpath,
+                    "Cannot find search result with title: " + title,
+                    1
+            );
+
+            this.waitForElementPresent(
+                    searchResultDescriptionXpath,
+                    "Cannot find search result with description: " + description,
+                    1
+            );
+
+
+        }
 
 
     }
 
     public void initSearchInput(){
 
-        this.waitForElementPresent(
-                SEARCH_INIT_ELEMENT,
-                "Cannot find search input after clicking search init element",
-                5
-        );
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+            this.waitForElementPresent(
+                    SEARCH_INIT_ELEMENT,
+                    "Cannot find search input after clicking search init element",
+                    5
+            );
+            this.waitForElementAndClick(
+                    SEARCH_INIT_ELEMENT,
+                    "Cannot find and click search init element",
+                    5
+            );
 
-        this.waitForElementAndClick(
-                SEARCH_INIT_ELEMENT,
-                "Cannot find and click search init element",
-                5
-        );
+        } else if (Platform.getInstance().isMW()) {
+            this.waitForElementPresent(
+                    SEARCH_INIT_ELEMENT,
+                    "Cannot find search input after clicking search init element",
+                    1
+            );
+            this.waitForElementAndClick(
+                    SEARCH_INIT_ELEMENT,
+                    "Cannot find and click search init element",
+                    1
+            );
+
+        }
+
 
     }
 
@@ -108,12 +149,23 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public void typeSearchLine(String searchLine){
 
-        waitForElementAndSendKeys(
-                SEARCH_INIT_ELEMENT,
-                searchLine,
-                "Cannot find search input",
-                5
-        );
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+            waitForElementAndSendKeys(
+                    SEARCH_INIT_ELEMENT,
+                    searchLine,
+                    "Cannot find search input",
+                    5
+            );
+
+        } else if (Platform.getInstance().isMW()){
+            waitForElementAndSendKeys(
+                    SEARCH_INIT_ELEMENT_WEB,
+                    searchLine,
+                    "Cannot find search input",
+                    5
+            );
+
+        }
 
     }
 
@@ -121,11 +173,24 @@ abstract public class SearchPageObject extends MainPageObject {
 
         String searchResultXpath = getResultSearchElement(subString);
 
-        this.waitForElementPresent(
-                searchResultXpath,
-                "Cannot find search result with subString " + subString,
-                5
-        );
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+
+            this.waitForElementPresent(
+                    searchResultXpath,
+                    "Cannot find search result with subString " + subString,
+                    5
+            );
+
+        } else if (Platform.getInstance().isMW()){
+
+            this.waitForElementPresent(
+                    searchResultXpath,
+                    "Cannot find search result with subString " + subString,
+                    5
+            );
+
+        }
+
 
     }
 
@@ -143,11 +208,21 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public int getAmountOfFoundArticles(){
 
-        this.waitForElementPresent(
-                SEARCH_RESULT_LIST,
-                "Nothing found when searching for the word",
-                10
-        );
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+            this.waitForElementPresent(
+                    SEARCH_RESULT_LIST,
+                    "Nothing found when searching for the word",
+                    10
+            );
+
+        } else if (Platform.getInstance().isMW()) {
+            this.waitForElementPresent(
+                    SEARCH_RESULT_LIST,
+                    "Nothing found when searching for the word",
+                    5
+            );
+
+        }
 
         return this.getAmountOfElements(SEARCH_RESULT_ELEMENT);
 
@@ -155,10 +230,19 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public void waitForEmptyResultsLabel(){
 
-        this.waitForElementPresent(
-                SEARCH_EMPTY_RESULT_ELEMENT,
-                "Cannot find empty result element.",
-                5);
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+            this.waitForElementPresent(
+                    SEARCH_EMPTY_RESULT_ELEMENT,
+                    "Cannot find empty result element.",
+                    5);
+
+        } else if (Platform.getInstance().isMW()) {
+            this.waitForElementPresent(
+                    SEARCH_EMPTY_RESULT_ELEMENT,
+                    "Cannot find empty result element.",
+                    5);
+
+        }
 
     }
 
@@ -173,29 +257,63 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public void waitAndClickOnSelectedItemInList(){
 
-        this.waitForElementPresent(
-                SELECT_ITEM_LIST,
-                "Cannot find 'Object-oriented programming language' text",
-                5
-        );
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
 
-        this.waitForElementAndClick(
-                SELECT_ITEM_LIST,
-                "Cannot find 'Object-oriented programming language' text",
-                5
+            this.waitForElementPresent(
+                    SELECT_ITEM_LIST,
+                    "Cannot find 'Object-oriented programming language' text",
+                    5
+            );
 
-        );
+            this.waitForElementAndClick(
+                    SELECT_ITEM_LIST,
+                    "Cannot find 'Object-oriented programming language' text",
+                    5
+
+            );
+
+        } else if (Platform.getInstance().isMW()){
+
+            this.waitForElementPresent(
+                    SELECT_ITEM_LIST_WEB,
+                    "Cannot find 'Java (programming language)' text",
+                    2
+            );
+
+            this.waitForElementAndClick(
+                    SELECT_ITEM_LIST_WEB,
+                    "Cannot find 'Java (programming language)' text",
+                    2
+
+            );
+
+        }
+
 
     }
 
     public void checkThatElementHasNotYetLoadedOntoPage(){
 
-        this.assertElementPresent(
-                // Передаю локатор несуществующего элемента, чтобы проверить кейс,
-                // когда элемент не успел загрузиться на страницу
-                NON_EXISTENT_ELEMENT,
-                "Element not found on page."
-        );
+        if(Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+
+            this.assertElementPresent(
+                    // Передаю локатор несуществующего элемента, чтобы проверить кейс,
+                    // когда элемент не успел загрузиться на страницу
+                    NON_EXISTENT_ELEMENT,
+                    "Element not found on page."
+            );
+
+        } else if (Platform.getInstance().isMW()) {
+
+            this.assertElementPresent(
+                    // Передаю локатор несуществующего элемента, чтобы проверить кейс,
+                    // когда элемент не успел загрузиться на страницу
+                    NON_EXISTENT_ELEMENT_WEB,
+                    "Element not found on page."
+            );
+
+        }
+
 
     }
 
@@ -214,38 +332,82 @@ abstract public class SearchPageObject extends MainPageObject {
 
         //String searchResultXpath = getResultContainsSearchElement(subString);
 
-        List<WebElement> webElementList =
-                driver.findElements(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'Java')]"));
-        webElementList.addAll(webElementList);
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
 
-        if (webElementList.isEmpty()) {
-            Assert.fail("Nothing found when searching for the word.");
+            List<WebElement> webElementList =
+                    driver.findElements(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'Java')]"));
+            webElementList.addAll(webElementList);
+
+            if (webElementList.isEmpty()) {
+                Assert.fail("Nothing found when searching for the word.");
+            }
+
+        } else if (Platform.getInstance().isMW()) {
+
+            List<WebElement> webElementList =
+                    driver.findElements(By.xpath("//li[contains(@title, 'Java')]"));
+            webElementList.addAll(webElementList);
+
+            if (webElementList.isEmpty()) {
+                Assert.fail("Nothing found when searching for the word.");
+            }
+
         }
+
 
     }
 
     // Убеждаемся, что найдено несколько статей.
     public void makesSureMultipleArticlesAreFound(){
 
-        List<WebElement> webElementList =
-                driver.findElements(By.id("org.wikipedia:id/page_list_item_title"));
-        webElementList.addAll(webElementList);
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
 
-        if (webElementList.isEmpty()) {
-            Assert.fail("Nothing found when searching for the word.");
+            List<WebElement> webElementList =
+                    driver.findElements(By.id("org.wikipedia:id/page_list_item_title"));
+            webElementList.addAll(webElementList);
+
+            if (webElementList.isEmpty()) {
+                Assert.fail("Nothing found when searching for the word.");
+            }
+
+        } else if (Platform.getInstance().isMW()) {
+
+            List<WebElement> webElementList =
+                    driver.findElements(By.xpath("//li[@title]"));
+            webElementList.addAll(webElementList);
+
+            if (webElementList.isEmpty()) {
+                Assert.fail("Nothing found when searching for the word.");
+            }
+
         }
+
 
     }
 
     // Убеждаемся, что найдено не менее трех статей.
     public void checkThatAtLeastThreeArticlesWereFound(){
 
-        List<WebElement> webElementList =
-                driver.findElements(By.id("org.wikipedia:id/page_list_item_title"));
-        webElementList.addAll(webElementList);
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
 
-        if (webElementList.size() < 3) {
-            Assert.fail("Less than three articles found.");
+            List<WebElement> webElementList =
+                    driver.findElements(By.id("org.wikipedia:id/page_list_item_title"));
+            webElementList.addAll(webElementList);
+
+            if (webElementList.size() < 3) {
+                Assert.fail("Less than three articles found.");
+            }
+
+        } else if (Platform.getInstance().isMW()) {
+
+            List<WebElement> webElementList =
+                    driver.findElements(By.xpath("//li[@title]"));
+            webElementList.addAll(webElementList);
+
+            if (webElementList.size() < 3) {
+                Assert.fail("Less than three articles found.");
+            }
+
         }
 
     }
@@ -254,22 +416,47 @@ abstract public class SearchPageObject extends MainPageObject {
     // Убеждается, что результат поиска пропал.
     public void makesSureSearchResultIsGone(){
 
-        this.waitForElementPresent(
-                SEARCH_RESULT_IS_EMPTY,
-                "Cannot find Search Wikipedia input",
-                5
-        );
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+            this.waitForElementPresent(
+                    SEARCH_RESULT_IS_EMPTY,
+                    "Cannot find Search Wikipedia input",
+                    5
+            );
+
+        } else if (Platform.getInstance().isMW()) {
+            this.waitForElementPresent(
+                    SEARCH_RESULT_IS_EMPTY,
+                    "Cannot find Search Wikipedia input",
+                    5
+            );
+
+        }
+
 
     }
 
     // Проверка текста в поле поиска Википедии.
     public String checkTextInSearchFieldInWikipedia(){
 
-        String textInFieldSearchWikipedia = this.assertElementHasText(
-                SEARCH_INIT_ELEMENT,
-                "Search Wikipedia",
-                "Unable to find text in the 'Wikipedia Search' box"
-        );
+        String textInFieldSearchWikipedia = null;
+
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+
+            textInFieldSearchWikipedia = this.assertElementHasText(
+                    SEARCH_INIT_ELEMENT,
+                    "Search Wikipedia",
+                    "Unable to find text in the 'Wikipedia Search' box"
+            );
+
+        } else if (Platform.getInstance().isMW()) {
+
+            textInFieldSearchWikipedia = this.assertElementHasText(
+                    SEARCH_WIKIPEDIA_PLACEHOLDER,
+                    "Search Wikipedia",
+                    "Unable to find text in the 'Wikipedia Search' box"
+            );
+
+        }
         return textInFieldSearchWikipedia;
 
     }

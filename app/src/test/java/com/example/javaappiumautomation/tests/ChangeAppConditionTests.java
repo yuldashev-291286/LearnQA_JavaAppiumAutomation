@@ -3,6 +3,7 @@ package com.example.javaappiumautomation.tests;
 import org.junit.Test;
 
 import com.example.javaappiumautomation.lib.CoreTestCase;
+import com.example.javaappiumautomation.lib.Platform;
 import com.example.javaappiumautomation.lib.ui.ArticlePageObject;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
 import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
@@ -29,6 +30,9 @@ public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testChangeScreenOrientationOnSearchResults() {
 
+        if (Platform.getInstance().isMW()){
+            return;
+        }
         onboardingPageObject.waitSkipAndClick();
 
         searchPageObject.initSearchInput();
@@ -64,6 +68,9 @@ public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testCheckSearchArticleInBackground() {
 
+        if (Platform.getInstance().isMW()){
+            return;
+        }
         onboardingPageObject.waitSkipAndClick();
 
         searchPageObject.initSearchInput();
@@ -90,14 +97,17 @@ public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testScreenRotation() {
 
+        if (Platform.getInstance().isMW()){
+            return;
+        }
         // Для примера. Из предыдущего теста вернулась ориентация экрана LANDSCAPE.
         this.rotateScreenLANDSCAPE();
-        System.out.println(driver.getOrientation());
+        //System.out.println(driver.getOrientation());
 
         // В начале теста ставим положение экрана в портретный режим.
         this.rotateScreenPortrait();
         //mainPageObject.returnScreenOrientationPortrait(driver.getOrientation());
-        System.out.println(driver.getOrientation());
+        //System.out.println(driver.getOrientation());
 
         onboardingPageObject.waitSkipAndClick();
 

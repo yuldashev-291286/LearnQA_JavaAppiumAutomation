@@ -3,6 +3,7 @@ package com.example.javaappiumautomation.tests;
 import org.junit.Test;
 
 import com.example.javaappiumautomation.lib.CoreTestCase;
+import com.example.javaappiumautomation.lib.Platform;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
 import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
 import com.example.javaappiumautomation.lib.ui.factories.OnboardingPageObjectFactory;
@@ -25,7 +26,9 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testSearch(){
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -36,7 +39,9 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testCancelSearch(){
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -50,7 +55,9 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testAmountOfNotEmptySearch() throws InterruptedException {
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
         String search_line = "Java";
@@ -58,7 +65,9 @@ public class SearchTests extends CoreTestCase {
 
         int amount_of_search_results = searchPageObject.getAmountOfFoundArticles();
 
-        Thread.sleep(5000);
+        System.out.println(amount_of_search_results);
+
+        Thread.sleep(1000);
 
         assertTrue(
                 "We found too few results !",
@@ -72,13 +81,15 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testAmountOfEmptySearch() throws InterruptedException {
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
         String search_line = "test45";
         searchPageObject.typeSearchLine(search_line);
 
-        Thread.sleep(5000);
+        Thread.sleep(1000);
 
         searchPageObject.waitForEmptyResultsLabel();
         searchPageObject.assertThereIsNoResultOfSearch();
@@ -91,13 +102,15 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testCheckWordsInSearch() throws InterruptedException {
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
         String search_line = "Java";
         searchPageObject.typeSearchLine(search_line);
 
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         searchPageObject.checkSearchResult();
         searchPageObject.makeSureThatEachSearchResultContainsFoundWord(search_line);
@@ -114,14 +127,16 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testCheckCancelSearch() throws InterruptedException {
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         // 1) Ищем какое-то слово.
         searchPageObject.initSearchInput();
         String search_line = "Java";
         searchPageObject.typeSearchLine(search_line);
 
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         // 2) Убеждаемся, что найдено несколько статей.
         searchPageObject.checkSearchResult();
@@ -133,7 +148,6 @@ public class SearchTests extends CoreTestCase {
 
         // 4) Убеждаемся, что результат поиска пропал.
         searchPageObject.makesSureSearchResultIsGone();
-        searchPageObject.initSearchInput();
 
     }
 
@@ -145,7 +159,9 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testCheckForExpectedText(){
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
 
@@ -164,7 +180,9 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testSearchElementByHeadAndDescription() throws InterruptedException {
 
-        onboardingPageObject.waitSkipAndClick();
+        if (Platform.getInstance().isAndroid()){
+            onboardingPageObject.waitSkipAndClick();
+        }
 
         searchPageObject.initSearchInput();
 
@@ -175,32 +193,58 @@ public class SearchTests extends CoreTestCase {
 
         searchPageObject.typeSearchLine(searchLine);
 
-        Thread.sleep(5000);
+        Thread.sleep(1000);
 
         // Убеждаемся, что найдено не менее трех статей.
         searchPageObject.checkThatAtLeastThreeArticlesWereFound();
 
-        // Первый ожидаемый результат в поиске.
-        String resultOfSearchWithTitleContains = "Java (programming language)";
-        String resultOfSearchWithDescriptionContains = "Object-oriented programming language";
-        searchPageObject.waitForElementByTitleAndDescription(
-                resultOfSearchWithTitleContains,
-                resultOfSearchWithDescriptionContains);
+        if (Platform.getInstance().isAndroid()){
 
-        // Второй ожидаемый результат в поиске.
-        resultOfSearchWithTitleContains = "JavaScript";
-        resultOfSearchWithDescriptionContains = "High-level programming language";
-        searchPageObject.waitForElementByTitleAndDescription(
-                resultOfSearchWithTitleContains,
-                resultOfSearchWithDescriptionContains);
+            // Первый ожидаемый результат в поиске.
+            String resultOfSearchWithTitleContains = "Java (programming language)";
+            String resultOfSearchWithDescriptionContains = "Object-oriented programming language";
+            searchPageObject.waitForElementByTitleAndDescription(
+                    resultOfSearchWithTitleContains,
+                    resultOfSearchWithDescriptionContains);
 
-        // Третий ожидаемый результат в поиске.
-        resultOfSearchWithTitleContains = "Java version history";
-        resultOfSearchWithDescriptionContains = "List of versions of the Java programming language";
-        searchPageObject.waitForElementByTitleAndDescription(
-                resultOfSearchWithTitleContains,
-                resultOfSearchWithDescriptionContains);
+            // Второй ожидаемый результат в поиске.
+            resultOfSearchWithTitleContains = "JavaScript";
+            resultOfSearchWithDescriptionContains = "High-level programming language";
+            searchPageObject.waitForElementByTitleAndDescription(
+                    resultOfSearchWithTitleContains,
+                    resultOfSearchWithDescriptionContains);
 
+            // Третий ожидаемый результат в поиске.
+            resultOfSearchWithTitleContains = "Java version history";
+            resultOfSearchWithDescriptionContains = "List of versions of the Java programming language";
+            searchPageObject.waitForElementByTitleAndDescription(
+                    resultOfSearchWithTitleContains,
+                    resultOfSearchWithDescriptionContains);
+
+        } else if (Platform.getInstance().isMW()) {
+
+            // Первый ожидаемый результат в поиске.
+            String resultOfSearchWithTitleContains = "Java (programming language)";
+            String resultOfSearchWithDescriptionContains = "Object-oriented programming language";
+            searchPageObject.waitForElementByTitleAndDescription(
+                    resultOfSearchWithTitleContains,
+                    resultOfSearchWithDescriptionContains);
+
+            // Второй ожидаемый результат в поиске.
+            resultOfSearchWithTitleContains = "JavaScript";
+            resultOfSearchWithDescriptionContains = "High-level programming language";
+            searchPageObject.waitForElementByTitleAndDescription(
+                    resultOfSearchWithTitleContains,
+                    resultOfSearchWithDescriptionContains);
+
+            // Третий ожидаемый результат в поиске.
+            resultOfSearchWithTitleContains = "Java version history";
+            resultOfSearchWithDescriptionContains = "List of versions of the Java programming language";
+            searchPageObject.waitForElementByTitleAndDescription(
+                    resultOfSearchWithTitleContains,
+                    resultOfSearchWithDescriptionContains);
+
+        }
 
 
     }
