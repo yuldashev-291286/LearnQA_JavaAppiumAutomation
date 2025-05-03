@@ -1,5 +1,6 @@
 package com.example.javaappiumautomation.tests;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.example.javaappiumautomation.lib.CoreTestCase;
@@ -9,19 +10,14 @@ import com.example.javaappiumautomation.lib.ui.AuthorizationPageObject;
 import com.example.javaappiumautomation.lib.ui.MyListsPageObject;
 import com.example.javaappiumautomation.lib.ui.NavigationUI;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
-import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
 import com.example.javaappiumautomation.lib.ui.factories.ArticlePageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.factories.MyListsPageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.factories.NavigationUIFactory;
-import com.example.javaappiumautomation.lib.ui.factories.OnboardingPageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory;
 
 public class MyListsTests extends CoreTestCase {
+    private AuthorizationPageObject Auth;
     private SearchPageObject searchPageObject;
-    private ArticlePageObject articlePageObject;
-    private NavigationUI navigationUI;
-    private MyListsPageObject myListsPageObject;
-    private static final String name_of_folder = "Learning programming";
     private static final String
             login = "YuldashevRuslan",
             password = "YZ]W7aq4-hRdP[]U";
@@ -29,60 +25,74 @@ public class MyListsTests extends CoreTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
+        Auth = new AuthorizationPageObject(driver);
         searchPageObject =  SearchPageObjectFactory.get(driver);
-        articlePageObject = ArticlePageObjectFactory.get(driver);
-        navigationUI = NavigationUIFactory.get(driver);
-        myListsPageObject = MyListsPageObjectFactory.get(driver);
     }
 
 
     // Занятие 4. Учебный тест №2. Тест не работает для Android, переделан под Mobile_Web.
+    //
+    // Ex17: Рефакторинг. Адаптировать под MW тест на удаление одной сохраненной статьи из двух.
+    // Вместо проверки title-элемента придумать другой способ верификации оставшейся статьи
+    // (т.е. способ убедиться, что осталась в сохраненных ожидаемая статья).
+    //
     @Test
-    public void testSaveFirstArticleToMyList() {
-
+    public void testSaveTwoArticlesToFavoritesAndDeleteOneSaveArticle() throws InterruptedException {
         if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
             return;
 
         }
+        // Открываем главное меню
+        Auth.clickMainMenu();
+
+        Thread.sleep(1000);
+
+        // Авторизуемся на странице Википедии
+        Auth.clickAuthButton();
+        Auth.enterLoginData(login, password);
+        Auth.submitForm();
+
+        // Проверяем title на авторизованной странице
+        Auth.checkExpectedPageTitle();
+
+        // Ищем на википедии статьи для сохранения
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
-        searchPageObject.clickByArticleWithSubstring("Java (programming language)");
 
-        articlePageObject.waitForTitleElement();
+        // Добавляем в избранное первую статью
+        searchPageObject.waitByArticleWithSubstring("Java (programming language)");
+        searchPageObject.addArticleToFavorites("Java (programming language)");
 
-        String article_title = articlePageObject.getArticleTitle();
+        // Добавляем в избранное вторую статью
+        searchPageObject.waitByArticleWithSubstring("JavaScript");
+        searchPageObject.addArticleToFavorites("JavaScript");
 
-        articlePageObject.addArticlesToMySaved();
+        // Возвращаемся на стартовую страницу
+        searchPageObject.returnToStartPage();
 
-        if (Platform.getInstance().isMW()){
-            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
-            Auth.clickAuthButton();
-            Auth.enterLoginData(login, password);
-            Auth.submitForm();
+        // Открываем главное меню
+        Auth.clickMainMenu();
 
-            articlePageObject.waitForTitleElement();
+        Thread.sleep(1000);
 
-            assertEquals("We are not on the same page after login.",
-                    article_title,
-                    articlePageObject.getArticleTitle()
+        // Переходим в избранное
+        searchPageObject.openFavorites();
 
-            );
+        Thread.sleep(1000);
 
-            articlePageObject.addArticlesToMySaved();
-
+        // Проверяем, что избранное не пустое
+        if (!searchPageObject.checkThatFavoritesAreNotEmpty()){
+            return;
         }
 
-        articlePageObject.closeArticle();
+        // Удаляем одну сохраненную статью
+        searchPageObject.deleteSavedArticle();
 
-        navigationUI.openNavigation();
-        navigationUI.clickMyLists();
-
-        if (Platform.getInstance().isAndroid()){
-            myListsPageObject.openFolderByName(name_of_folder);
+        // Проверить, что осталась вторая статья, которую мы не удаляли
+        if (!searchPageObject.checkRestOfArticleHref()){
+            Assert.fail("Wrong article left.");
 
         }
-
-        myListsPageObject.swipeByArticleToDelete(article_title);
 
     }
 

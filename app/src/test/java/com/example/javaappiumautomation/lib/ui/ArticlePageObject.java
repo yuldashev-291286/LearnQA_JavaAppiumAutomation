@@ -44,7 +44,7 @@ abstract public class ArticlePageObject extends MainPageObject {
 
         WebElement title_element = waitForTitleElement();
 
-        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+        if (Platform.getInstance().isAndroid()) {
             return "Java (programming language)";
             //return title_element.getAttribute("text");
 
@@ -147,16 +147,20 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     public void removeArticleFromSavedIfItAdded(){
 
-        if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)){
-            this.waitForElementAndClick(
-                    OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
-                    "Cannot click button to remove an article from saved",
-                    1
-            );
-            this.waitForElementPresent(
-                    OPTIONS_ADD_TO_MY_LIST_BUTTON,
-                    "Cannot find button to add an article to saved list after removing it from this list before"
-                    );
+        if (Platform.getInstance().isMW()){
+
+            if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)){
+                this.waitForElementAndClick(
+                        OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
+                        "Cannot click button to remove an article from saved",
+                        1
+                );
+                this.waitForElementPresent(
+                        OPTIONS_ADD_TO_MY_LIST_BUTTON,
+                        "Cannot find button to add an article to saved list after removing it from this list before"
+                );
+            }
+
         }
 
     }

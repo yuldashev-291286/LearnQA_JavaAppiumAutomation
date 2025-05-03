@@ -9,8 +9,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.List;
 
-import io.appium.java_client.AppiumDriver;
-
 abstract public class SearchPageObject extends MainPageObject {
 
     protected static String
@@ -29,7 +27,15 @@ abstract public class SearchPageObject extends MainPageObject {
             NON_EXISTENT_ELEMENT,
             NON_EXISTENT_ELEMENT_WEB = "xpath://div/t",
             SELECT_ITEM_WITH_TITLE_SUBSTRING_TPL,
-            SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL;
+            SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL,
+            RETURN_START_PAGE = "xpath://div[@class='header-action']/button[@type='button']",
+            EXPECTED_PAGE_TITLE = "xpath://h1[contains(text(),'Welcome, YuldashevRuslan!')]",
+            ADD_FOUND_ARTICLE_TO_FAVORITES = "xpath://li[@title='{SUBSTRING}']/a[@type='button']",
+            FAVORITES_BUTTON = "xpath://span[contains(text(),'Watchlist')]",
+            DELETE_SAVED_ARTICLE = "xpath://li[@title='JavaScript']/a[@type='button']",
+            FAVORITES_NOT_EMPTY = "xpath://ul[@class='content-unstyled mw-mf-page-list thumbs page-summary-list mw-mf-watchlist-page-list']",
+            REST_ARTICLE = "xpath://h3[contains(text(),'Java (programming language)')]",
+            REST_ARTICLE_HREF = "xpath://a[@href='/wiki/Java_(programming_language)']";
 
 
     public SearchPageObject(RemoteWebDriver driver){
@@ -58,6 +64,11 @@ abstract public class SearchPageObject extends MainPageObject {
     // Добавить соответствующий метод в секцию TEMPLATES METHODS класса SearchPageObject.
     private static String getResultWithDescription(String subString){
         return SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL.replace("{SUBSTRING}", subString);
+    }
+
+    // Локатор, который добавляет найденную статью на Википедии в избранное, для платформы mobile_web.
+    private static String addFoundArticleToFavorites(String subString){
+        return ADD_FOUND_ARTICLE_TO_FAVORITES.replace("{SUBSTRING}", subString);
     }
 
     // TEMPLATES METHODS
@@ -198,11 +209,181 @@ abstract public class SearchPageObject extends MainPageObject {
 
         String searchResultXpath = getResultSearchElement(subString);
 
-        this.waitForElementAndClick(
-                searchResultXpath,
-                "Cannot find and click search result with subString " + subString,
-                5
-        );
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+            this.waitForElementAndClick(
+                    searchResultXpath,
+                    "Cannot find and click search result with subString " + subString,
+                    5
+            );
+
+        } else if (Platform.getInstance().isMW()) {
+            this.waitForElementAndClick(
+                    searchResultXpath,
+                    "Cannot find and click search result with subString " + subString,
+                    5
+            );
+
+        }
+
+    }
+
+    public void waitByArticleWithSubstring(String subString){
+
+        String searchResultXpath = getResultSearchElement(subString);
+
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+            this.waitForElementPresent(
+                    searchResultXpath,
+                    "Cannot find and click search result with subString " + subString,
+                    5
+            );
+
+        } else if (Platform.getInstance().isMW()) {
+            this.waitForElementPresent(
+                    searchResultXpath,
+                    "Cannot find and click search result with subString " + subString,
+                    5
+            );
+
+        }
+
+    }
+
+    public void addArticleToFavorites(String subString){
+
+        String searchResultXpath = addFoundArticleToFavorites(subString);
+
+        if (Platform.getInstance().isMW()){
+            this.waitForElementPresent(
+                    searchResultXpath,
+                    "Cannot find button favorites",
+                    5);
+
+            this.waitForElementAndClick(
+                    searchResultXpath,
+                    "Cannot find button favorites",
+                    5);
+
+        }
+    }
+
+    public void returnToStartPage(){
+        if (Platform.getInstance().isMW()){
+            this.waitForElementAndClick(
+                    RETURN_START_PAGE,
+                    "Cannot find button for return start page",
+                    5);
+
+            this.waitForElementPresent(
+                    EXPECTED_PAGE_TITLE,
+                    "Cannot find expected title");
+
+        }
+
+    }
+
+    public void openFavorites(){
+        if (Platform.getInstance().isMW()) {
+            this.waitForElementPresent(
+                    FAVORITES_BUTTON,
+                    "Cannot find favorites button",
+                    5);
+
+            this.waitForElementAndClick(
+                    FAVORITES_BUTTON,
+                    "Cannot find favorites button",
+                    5);
+        }
+
+    }
+
+    public boolean checkThatFavoritesAreNotEmpty(){
+
+        boolean empty = false;
+        if (Platform.getInstance().isMW()) {
+            try {
+                this.waitForElementPresent(
+                        FAVORITES_NOT_EMPTY,
+                        "There is nothing in the favorites",
+                        5);
+                empty = true;
+
+            } catch (Exception e) {
+                System.out.println("There are no articles in the favorites.");
+
+            }
+
+        }
+        return empty;
+
+    }
+
+    public void deleteSavedArticle() {
+        if (Platform.getInstance().isMW()) {
+            this.waitForElementPresent(
+                    DELETE_SAVED_ARTICLE,
+                    "Cannot find favorites button",
+                    5);
+
+
+            this.waitForElementAndClick(
+                    DELETE_SAVED_ARTICLE,
+                    "Cannot find favorites button",
+                    5);
+        }
+    }
+
+    // Ex17: Рефакторинг. Адаптировать под MW тест на удаление одной сохраненной статьи из двух.
+    // Вместо проверки title-элемента придумать другой способ верификации оставшейся статьи
+    // (т.е. способ убедиться, что осталась в сохраненных ожидаемая статья).
+    //
+    // Здесь осташееся статья проверяется по тексту 'Java (programming language)', не по заголовку(title) элемента
+    public boolean checkRestOfArticle(){
+
+        boolean restArticle = false;
+        if (Platform.getInstance().isMW()) {
+            try {
+                this.waitForElementPresent(
+                        REST_ARTICLE,
+                        "Cannot find favorites button",
+                        5);
+
+                restArticle = true;
+
+            } catch (Exception e){
+                System.out.println("Wrong article left.");
+
+            }
+
+        }
+        return restArticle;
+
+    }
+
+    // Ex17: Рефакторинг. Адаптировать под MW тест на удаление одной сохраненной статьи из двух.
+    // Вместо проверки title-элемента придумать другой способ верификации оставшейся статьи
+    // (т.е. способ убедиться, что осталась в сохраненных ожидаемая статья).
+    //
+    // Здесь осташееся статья проверяется по ссылке href '/wiki/Java_(programming_language)', не по заголовку(title) элемента
+    public boolean checkRestOfArticleHref(){
+
+        boolean restArticle = false;
+        if (Platform.getInstance().isMW()) {
+            try {
+                this.waitForElementPresent(
+                        REST_ARTICLE_HREF,
+                        "Cannot find favorites button",
+                        5);
+
+                restArticle = true;
+
+            } catch (Exception e){
+                System.out.println("Wrong article left.");
+
+            }
+
+        }
+        return restArticle;
 
     }
 
