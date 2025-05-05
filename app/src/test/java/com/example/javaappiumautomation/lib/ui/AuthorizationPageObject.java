@@ -4,13 +4,13 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AuthorizationPageObject extends MainPageObject {
 
-    private static final String
-            MAIN_MENU = "xpath://input[@id='main-menu-input']",
-            LOGIN_BUTTON = "xpath://span[contains(text(),'Log in')]",
-            LOGIN_INPUT = "xpath://input[@class='loginText mw-userlogin-username cdx-text-input__input']",
-            PASSWORD_INPUT = "xpath://input[@class='loginPassword mw-userlogin-password cdx-text-input__input']",
-            SUBMIT_BUTTON = "xpath://button[@class='mw-htmlform-submit cdx-button cdx-button--weight-primary cdx-button--action-progressive']",
-            EXPECTED_PAGE_TITLE = "xpath://h1[contains(text(),'Welcome, YuldashevRuslan!')]";
+    protected static String
+            MAIN_MENU,
+            LOGIN_BUTTON,
+            LOGIN_INPUT,
+            PASSWORD_INPUT,
+            SUBMIT_BUTTON,
+            EXPECTED_PAGE_TITLE;
 
     public AuthorizationPageObject(RemoteWebDriver driver){
         super(driver);

@@ -23,19 +23,19 @@ abstract public class SearchPageObject extends MainPageObject {
             SEARCH_RESULT_ELEMENT,
             SEARCH_EMPTY_RESULT_ELEMENT,
             SELECT_ITEM_LIST,
-            SELECT_ITEM_LIST_WEB = "xpath://div[contains(text(),'Object-oriented programming language')]",
             NON_EXISTENT_ELEMENT,
-            NON_EXISTENT_ELEMENT_WEB = "xpath://div/t",
             SELECT_ITEM_WITH_TITLE_SUBSTRING_TPL,
             SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL,
-            RETURN_START_PAGE = "xpath://div[@class='header-action']/button[@type='button']",
-            EXPECTED_PAGE_TITLE = "xpath://h1[contains(text(),'Welcome, YuldashevRuslan!')]",
-            ADD_FOUND_ARTICLE_TO_FAVORITES = "xpath://li[@title='{SUBSTRING}']/a[@type='button']",
-            FAVORITES_BUTTON = "xpath://span[contains(text(),'Watchlist')]",
-            DELETE_SAVED_ARTICLE = "xpath://li[@title='JavaScript']/a[@type='button']",
-            FAVORITES_NOT_EMPTY = "xpath://ul[@class='content-unstyled mw-mf-page-list thumbs page-summary-list mw-mf-watchlist-page-list']",
-            REST_ARTICLE = "xpath://h3[contains(text(),'Java (programming language)')]",
-            REST_ARTICLE_HREF = "xpath://a[@href='/wiki/Java_(programming_language)']";
+            SELECT_ITEM_LIST_WEB,
+            NON_EXISTENT_ELEMENT_WEB,
+            RETURN_START_PAGE,
+            EXPECTED_PAGE_TITLE,
+            ADD_FOUND_ARTICLE_TO_FAVORITES,
+            FAVORITES_BUTTON,
+            DELETE_SAVED_ARTICLE,
+            FAVORITES_NOT_EMPTY,
+            REST_ARTICLE,
+            REST_ARTICLE_HREF;
 
 
     public SearchPageObject(RemoteWebDriver driver){

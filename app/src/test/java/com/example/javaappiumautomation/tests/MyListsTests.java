@@ -11,9 +11,11 @@ import com.example.javaappiumautomation.lib.ui.MyListsPageObject;
 import com.example.javaappiumautomation.lib.ui.NavigationUI;
 import com.example.javaappiumautomation.lib.ui.SearchPageObject;
 import com.example.javaappiumautomation.lib.ui.factories.ArticlePageObjectFactory;
+import com.example.javaappiumautomation.lib.ui.factories.AuthorizationPageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.factories.MyListsPageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.factories.NavigationUIFactory;
 import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory;
+import com.example.javaappiumautomation.lib.ui.mobile_web.MWAuthorizationPageObject;
 
 public class MyListsTests extends CoreTestCase {
     private AuthorizationPageObject Auth;
@@ -25,7 +27,7 @@ public class MyListsTests extends CoreTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        Auth = new AuthorizationPageObject(driver);
+        Auth = AuthorizationPageObjectFactory.get(driver);
         searchPageObject =  SearchPageObjectFactory.get(driver);
     }
 

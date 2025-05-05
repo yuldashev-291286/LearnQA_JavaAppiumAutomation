@@ -3,6 +3,7 @@ package com.example.javaappiumautomation.tests;
 import com.example.javaappiumautomation.lib.CoreTestCase;
 import com.example.javaappiumautomation.lib.Platform;
 import com.example.javaappiumautomation.lib.ui.WelcomePageObject;
+import com.example.javaappiumautomation.lib.ui.factories.WelcomePageObjectFactory;
 
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class GetStartedTest extends CoreTestCase {
         if (Platform.getInstance().isAndroid() || Platform.getInstance().isMW()) {
             return;
         }
-        WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
+        WelcomePageObject welcomePageObject = WelcomePageObjectFactory.get(driver);
 
         welcomePageObject.waitForLearnMoreLink();
         welcomePageObject.clickNextButton();
