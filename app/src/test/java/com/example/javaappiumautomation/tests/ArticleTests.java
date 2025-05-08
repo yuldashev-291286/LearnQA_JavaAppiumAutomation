@@ -1,5 +1,6 @@
 package com.example.javaappiumautomation.tests;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.example.javaappiumautomation.lib.CoreTestCase;
@@ -17,7 +18,7 @@ public class ArticleTests extends CoreTestCase {
     private SearchPageObject searchPageObject;
     private ArticlePageObject articlePageObject;
 
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
 
         onboardingPageObject = OnboardingPageObjectFactory.get(driver);
@@ -41,7 +42,7 @@ public class ArticleTests extends CoreTestCase {
 
         String article_title = articlePageObject.getArticleTitle();
 
-        assertEquals(
+        Assert.assertEquals(
                 "We see unexpected title!",
                 "Java (programming language)",
                 article_title

@@ -1,5 +1,6 @@
 package com.example.javaappiumautomation.tests;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.example.javaappiumautomation.lib.CoreTestCase;
@@ -17,7 +18,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
     private SearchPageObject searchPageObject;
     private ArticlePageObject articlePageObject;
 
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
 
         onboardingPageObject = OnboardingPageObjectFactory.get(driver);
@@ -45,7 +46,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
 
         String title_after_rotation = articlePageObject.getArticleTitle();
 
-        assertEquals(
+        Assert.assertEquals(
                 "Article title have been changed after screen rotation",
                 title_before_rotation,
                 title_after_rotation
@@ -55,7 +56,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
 
         String title_after_second_rotation = articlePageObject.getArticleTitle();
 
-        assertEquals(
+        Assert.assertEquals(
                 "Article title have been changed after screen rotation",
                 title_before_rotation,
                 title_after_second_rotation

@@ -8,6 +8,7 @@ import com.example.javaappiumautomation.lib.ui.SearchPageObject;
 import com.example.javaappiumautomation.lib.ui.factories.OnboardingPageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class OnboardingTests extends CoreTestCase {
@@ -15,7 +16,7 @@ public class OnboardingTests extends CoreTestCase {
     private OnboardingPageObject onboardingPageObject;
     private SearchPageObject searchPageObject;
 
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
 
         onboardingPageObject = OnboardingPageObjectFactory.get(driver);
@@ -39,7 +40,7 @@ public class OnboardingTests extends CoreTestCase {
 
         // При перелистывании экрана проверяет ожидаемый Title.
         String actualTitle = onboardingPageObject.actualTitle();
-        assertEquals("The Free Encyclopedia\n…in over 300 languages", actualTitle);
+        Assert.assertEquals("The Free Encyclopedia\n…in over 300 languages", actualTitle);
 
         // Свайпами перелистывает экраны Onboarding.
         onboardingPageObject.swipeElementToLeft();
@@ -49,7 +50,7 @@ public class OnboardingTests extends CoreTestCase {
 
         // При перелистывании экрана проверяет ожидаемый Title.
         actualTitle = onboardingPageObject.actualTitle();
-        assertEquals("New ways to explore", actualTitle);
+        Assert.assertEquals("New ways to explore", actualTitle);
 
         Thread.sleep(1000);
         System.out.println(actualTitle);
@@ -59,7 +60,7 @@ public class OnboardingTests extends CoreTestCase {
 
         // При перелистывании экрана проверяет ожидаемый Title.
         actualTitle = onboardingPageObject.actualTitle();
-        assertEquals("Reading lists with sync", actualTitle);
+        Assert.assertEquals("Reading lists with sync", actualTitle);
 
         Thread.sleep(1000);
         System.out.println(actualTitle);
@@ -69,7 +70,7 @@ public class OnboardingTests extends CoreTestCase {
 
         // При перелистывании экрана проверяет ожидаемый Title.
         actualTitle = onboardingPageObject.actualTitle();
-        assertEquals("Send anonymous data", actualTitle);
+        Assert.assertEquals("Send anonymous data", actualTitle);
 
         Thread.sleep(1000);
         System.out.println(actualTitle);

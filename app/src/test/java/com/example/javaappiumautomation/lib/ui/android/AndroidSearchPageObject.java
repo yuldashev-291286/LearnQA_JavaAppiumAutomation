@@ -20,6 +20,7 @@ public class AndroidSearchPageObject extends SearchPageObject {
                 NON_EXISTENT_ELEMENT = "id:org.wikipedia:id/page_title";
                 SELECT_ITEM_WITH_TITLE_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title' and contains(@text,'{SUBSTRING}')]";
                 SELECT_ITEM_WITH_DESCRIPTION_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description' and contains(@text,'{SUBSTRING}')]";
+                SELECT_ITEM_LIST = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='Object-oriented programming language']";
     }
 
     public AndroidSearchPageObject(RemoteWebDriver driver){

@@ -24,7 +24,7 @@ public class MyListsTests extends CoreTestCase {
             login = "YuldashevRuslan",
             password = "YZ]W7aq4-hRdP[]U";
 
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
 
         Auth = AuthorizationPageObjectFactory.get(driver);

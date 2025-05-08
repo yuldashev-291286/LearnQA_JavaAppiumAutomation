@@ -7,18 +7,20 @@ import com.example.javaappiumautomation.lib.ui.WelcomePageObject;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
+import org.junit.Before;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import io.appium.java_client.AppiumDriver;
 
-public class CoreTestCase extends TestCase {
+public class CoreTestCase /*extends TestCase*/ {
 
     protected RemoteWebDriver driver;
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before//@Override
+    public void setUp() throws Exception {
 
-        super.setUp();
+        //super.setUp();
         driver = Platform.getInstance().getDriver();
         this.rotateScreenPortrait();
         this.skipWelcomePageForIOSApp();
@@ -26,8 +28,8 @@ public class CoreTestCase extends TestCase {
 
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After//@Override
+    public void tearDown() /*throws Exception*/ {
 
         if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
             driver.quit();
@@ -37,7 +39,7 @@ public class CoreTestCase extends TestCase {
 
         }
 
-        super.tearDown();
+        //super.tearDown();
     }
 
     protected void rotateScreenPortrait(){
