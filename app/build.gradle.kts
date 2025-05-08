@@ -40,6 +40,7 @@ dependencies {
     implementation(files("src\\main\\java\\com\\example\\javaappiumautomation\\libs\\selenium-server-standalone-3.4.0.jar"))
     implementation(files("src\\main\\java\\com\\example\\javaappiumautomation\\libs\\junit-4.12.jar"))
     implementation(files("src\\main\\java\\com\\example\\javaappiumautomation\\libs\\java-client-4.1.2.jar"))
+    implementation(libs.play.services.fido)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

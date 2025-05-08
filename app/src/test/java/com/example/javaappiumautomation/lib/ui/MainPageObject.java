@@ -3,6 +3,8 @@ package com.example.javaappiumautomation.lib.ui;
 import static org.openqa.selenium.ScreenOrientation.LANDSCAPE;
 import static org.openqa.selenium.ScreenOrientation.PORTRAIT;
 
+import android.os.FileUtils;
+
 import com.example.javaappiumautomation.lib.Platform;
 
 import org.junit.Assert;
@@ -11,12 +13,19 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -443,6 +452,40 @@ public class MainPageObject {
         }
 
     }
+
+/*
+    public String takeScreenshot(String name){
+
+        TakesScreenshot takesScreenshot = (TakesScreenshot)this.driver;
+        File source = takesScreenshot.getScreenshotAs(OutputType.FILE);
+        String path = System.getProperty("user.dir") + "/" + name + "_screenshot.png";
+        try {
+            FileUtils.copy(source, new File(path));
+            System.out.println("The screenshot was taken: " + path);
+        } catch (Exception e){
+            System.out.println("Cannot take screenshot. Error: " + e.getMessage());
+
+        }
+        return path;
+
+    }
+
+    //@Attachment
+    public static byte[] screenshot(String path){
+
+        byte[] bytes = new byte[0];
+        try {
+            bytes = Files.readAllBytes(Paths.get(path));
+
+        } catch (IOException e) {
+            System.out.println("Cannot get bytes from screenshot. Error: " + e.getMessage());
+
+        }
+        return bytes;
+
+    }
+
+ */
 
 
 }

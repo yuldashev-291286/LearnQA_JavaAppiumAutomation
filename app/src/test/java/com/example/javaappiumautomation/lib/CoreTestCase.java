@@ -5,11 +5,13 @@ import static org.openqa.selenium.ScreenOrientation.PORTRAIT;
 
 import com.example.javaappiumautomation.lib.ui.WelcomePageObject;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 import io.appium.java_client.AppiumDriver;
 
@@ -22,6 +24,7 @@ public class CoreTestCase /*extends TestCase*/ {
 
         //super.setUp();
         driver = Platform.getInstance().getDriver();
+        //this.createAllurePropertyFile();
         this.rotateScreenPortrait();
         this.skipWelcomePageForIOSApp();
         this.openWikiWebPageForMobileWeb();
@@ -92,6 +95,27 @@ public class CoreTestCase /*extends TestCase*/ {
         }
 
     }
+
+    // Allure
+/*    private void createAllurePropertyFile(){
+
+        String path = System.setProperty("allure.results.directory");
+
+        try {
+            Properties properties = new Properties();
+            FileOutputStream fileOutputStream = new FileOutputStream(path + "/environment.properties");
+            properties.setProperty("Environment", Platform.getInstance().getPlatformVar());
+            properties.store(fileOutputStream, "See https://github.com/allure-framework/allure-app/wiki/Environment");
+            fileOutputStream.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            System.err.println("IO problem when writing allure properties file");
+            e.printStackTrace();
+
+        }
+
+    }*/
 
 
 }
