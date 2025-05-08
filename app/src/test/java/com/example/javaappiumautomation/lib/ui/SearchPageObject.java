@@ -147,15 +147,27 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     public void waitForCancelButtonToAppear(){
-        this.waitForElementPresent(SEARCH_CANCEL_BUTTON, "Cannot find search cancel button.", 5);
+        this.waitForElementPresent(
+                SEARCH_CANCEL_BUTTON,
+                "Cannot find search cancel button.",
+                5
+        );
     }
 
     public void waitForCancelButtonToDisappear(){
-        this.waitForElementNotPresent(SEARCH_CANCEL_BUTTON, "Search cancel button is still present.", 5);
+        this.waitForElementNotPresent(
+                SEARCH_CANCEL_BUTTON,
+                "Search cancel button is still present.",
+                5
+        );
     }
 
     public void clickCancelSearch(){
-        this.waitForElementAndClick(SEARCH_CANCEL_BUTTON, "Cannot find and click search cancel button.", 5);
+        this.waitForElementAndClick(
+                SEARCH_CANCEL_BUTTON,
+                "Cannot find and click search cancel button.",
+                5
+        );
     }
 
     public void typeSearchLine(String searchLine){
