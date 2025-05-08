@@ -1,21 +1,39 @@
 [versions]
 agp = "8.9.0"
+allureAndroid = "2.32.2"
+allureAndroidCommons = "2.0.0"
 junit = "4.13.2"
+junitJunit = "4.12"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+kotlinStdlib = "2.0.20"
 material = "1.12.0"
 monitor = "1.7.2"
 playServicesFido = "21.2.0"
+supportAnnotations = "28.0.0"
+annotation = "1.9.1"
+uiautomator = "2.3.0"
 
 [libraries]
+allure-android = { module = "ru.tinkoff.allure:allure-android", version.ref = "allureAndroid" }
+allure-android-commons = { module = "io.qameta.allure:allure-android-commons", version.ref = "allureAndroidCommons" }
+allure-android-model = { module = "io.qameta.allure:allure-android-model", version.ref = "allureAndroidCommons" }
+allure-common = { module = "ru.tinkoff.allure:allure-common", version.ref = "allureAndroid" }
+allure-espresso = { module = "io.qameta.allure:allure-espresso", version.ref = "allureAndroidCommons" }
+allure-model = { module = "ru.tinkoff.allure:allure-model", version.ref = "allureAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+junit-v412 = { module = "junit:junit", version.ref = "junitJunit" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinStdlib" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 monitor = { group = "androidx.test", name = "monitor", version.ref = "monitor" }
 play-services-fido = { group = "com.google.android.gms", name = "play-services-fido", version.ref = "playServicesFido" }
+support-annotations = { group = "com.android.support", name = "support-annotations", version.ref = "supportAnnotations" }
+annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
