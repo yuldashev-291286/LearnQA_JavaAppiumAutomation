@@ -453,8 +453,8 @@ public class MainPageObject {
 
     }
 
-/*
-    public String takeScreenshot(String name){
+
+/*    public String takeScreenshot(String name){
 
         TakesScreenshot takesScreenshot = (TakesScreenshot)this.driver;
         File source = takesScreenshot.getScreenshotAs(OutputType.FILE);
@@ -470,7 +470,7 @@ public class MainPageObject {
 
     }
 
-    //@Attachment
+    @Attachment
     public static byte[] screenshot(String path){
 
         byte[] bytes = new byte[0];

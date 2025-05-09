@@ -12,6 +12,12 @@ import com.example.javaappiumautomation.lib.ui.factories.ArticlePageObjectFactor
 import com.example.javaappiumautomation.lib.ui.factories.OnboardingPageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory;
 
+import io.qameta.allure.kotlin.Description;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Feature;
+
+@Epic("Mobile application")
+@Feature("Tests for working with a mobile application")
 public class ChangeAppConditionTests extends CoreTestCase {
 
     private OnboardingPageObject onboardingPageObject;
@@ -29,6 +35,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
 
     // Занятие 4. Учебный тест №5.
     @Test
+    @Description(value = "Change screen orientation in search results")
     public void testChangeScreenOrientationOnSearchResults() {
 
         if (Platform.getInstance().isMW()){
@@ -67,6 +74,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
 
     // Занятие 4. Учебный тест №6.
     @Test
+    @Description(value = "Check article search with background")
     public void testCheckSearchArticleInBackground() {
 
         if (Platform.getInstance().isMW()){
@@ -96,6 +104,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
     // Как нам сделать так, чтобы после теста на поворот экрана сам экран всегда оказывался в правильном положении,
     // даже если тест упал в тот момент, когда экран был наклонен?
     @Test
+    @Description(value = "Rotate screen")
     public void testScreenRotation() {
 
         if (Platform.getInstance().isMW()){

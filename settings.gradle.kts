@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_EXPRESSION")
+
 pluginManagement {
     repositories {
         google {
@@ -16,6 +18,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal() // https://plugins.gradle.org/plugin/io.qameta.allure
     }
 }
 

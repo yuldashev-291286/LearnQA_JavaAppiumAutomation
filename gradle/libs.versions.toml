@@ -2,8 +2,14 @@
 agp = "8.9.0"
 allureAndroid = "2.32.2"
 allureAndroidCommons = "2.0.0"
+allureJunit5 = "2.29.0"
+allureKotlinCommons = "2.1.0"
+allureKotlinCommonsTest = "2.4.0"
+aspectjweaver = "1.9.22.1"
+ioQametaAllureGradlePlugin = "2.12.0"
 junit = "4.13.2"
 junitJunit = "4.12"
+junitJupiterApi = "5.11.3"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
@@ -14,6 +20,9 @@ playServicesFido = "21.2.0"
 supportAnnotations = "28.0.0"
 annotation = "1.9.1"
 uiautomator = "2.3.0"
+junitJupiter = "5.8.1"
+uiAndroid = "1.8.1"
+supportV4 = "28.0.0"
 
 [libraries]
 allure-android = { module = "ru.tinkoff.allure:allure-android", version.ref = "allureAndroid" }
@@ -21,11 +30,19 @@ allure-android-commons = { module = "io.qameta.allure:allure-android-commons", v
 allure-android-model = { module = "io.qameta.allure:allure-android-model", version.ref = "allureAndroidCommons" }
 allure-common = { module = "ru.tinkoff.allure:allure-common", version.ref = "allureAndroid" }
 allure-espresso = { module = "io.qameta.allure:allure-espresso", version.ref = "allureAndroidCommons" }
+allure-junit5 = { module = "io.qameta.allure:allure-junit5", version.ref = "allureJunit5" }
+allure-kotlin-commons = { module = "io.qameta.allure:allure-kotlin-commons", version.ref = "allureKotlinCommonsTest" }
+allure-kotlin-commons-test = { module = "io.qameta.allure:allure-kotlin-commons-test", version.ref = "allureKotlinCommonsTest" }
+allure-kotlin-commons-v210 = { module = "io.qameta.allure:allure-kotlin-commons", version.ref = "allureKotlinCommons" }
 allure-model = { module = "ru.tinkoff.allure:allure-model", version.ref = "allureAndroid" }
+aspectjweaver = { module = "org.aspectj:aspectjweaver", version.ref = "aspectjweaver" }
+io-qameta-allure-gradle-plugin = { module = "io.qameta.allure:io.qameta.allure.gradle.plugin", version.ref = "ioQametaAllureGradlePlugin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junitJupiterApi" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitJupiterApi" }
 junit-v412 = { module = "junit:junit", version.ref = "junitJunit" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinStdlib" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
@@ -34,6 +51,9 @@ play-services-fido = { group = "com.google.android.gms", name = "play-services-f
 support-annotations = { group = "com.android.support", name = "support-annotations", version.ref = "supportAnnotations" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
+ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+support-v4 = { group = "com.android.support", name = "support-v4", version.ref = "supportV4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

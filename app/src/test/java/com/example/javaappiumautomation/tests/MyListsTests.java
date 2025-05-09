@@ -17,6 +17,12 @@ import com.example.javaappiumautomation.lib.ui.factories.NavigationUIFactory;
 import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.mobile_web.MWAuthorizationPageObject;
 
+import io.qameta.allure.kotlin.Description;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Feature;
+
+@Epic("Featured")
+@Feature("Test for working with favorites")
 public class MyListsTests extends CoreTestCase {
     private AuthorizationPageObject Auth;
     private SearchPageObject searchPageObject;
@@ -39,6 +45,7 @@ public class MyListsTests extends CoreTestCase {
     // (т.е. способ убедиться, что осталась в сохраненных ожидаемая статья).
     //
     @Test
+    @Description(value = "Deleting one saved article from two")
     public void testSaveTwoArticlesToFavoritesAndDeleteOneSaveArticle() throws InterruptedException {
         if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
             return;

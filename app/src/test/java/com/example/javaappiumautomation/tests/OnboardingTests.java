@@ -11,6 +11,12 @@ import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory
 import org.junit.Assert;
 import org.junit.Test;
 
+import io.qameta.allure.kotlin.Description;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Feature;
+
+@Epic("Onboarding")
+@Feature("Test for working with onboarding")
 public class OnboardingTests extends CoreTestCase {
 
     private OnboardingPageObject onboardingPageObject;
@@ -31,6 +37,7 @@ public class OnboardingTests extends CoreTestCase {
     // 3. Нажимает кнопку: "Accept" на Android и “Get started” на iOS в конце Onboarding.
     // 4. Убеждается в отображении Главного экрана.
     @Test
+    @Description(value = "Onboarding Test")
     public void testSaveTwoArticlesOrOnboarding() throws InterruptedException {
 
         if (Platform.getInstance().isMW()){

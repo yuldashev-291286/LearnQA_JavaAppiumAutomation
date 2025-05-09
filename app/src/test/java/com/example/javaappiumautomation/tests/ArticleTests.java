@@ -12,6 +12,12 @@ import com.example.javaappiumautomation.lib.ui.factories.ArticlePageObjectFactor
 import com.example.javaappiumautomation.lib.ui.factories.OnboardingPageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory;
 
+import io.qameta.allure.kotlin.Description;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Feature;
+
+@Epic("Wikipedia articles")
+@Feature("Tests for working with Wikipedia articles")
 public class ArticleTests extends CoreTestCase {
 
     private OnboardingPageObject onboardingPageObject;
@@ -28,6 +34,7 @@ public class ArticleTests extends CoreTestCase {
 
 
     @Test
+    @Description(value = "Comparison of article titles")
     public void testCompareArticleTitle() {
 
         if (Platform.getInstance().isAndroid()){
@@ -52,6 +59,7 @@ public class ArticleTests extends CoreTestCase {
 
     // Занятие 4. Учебный тест №1. Swipe.
     @Test
+    @Description(value = "Swipe on article")
     public void testSwipeArticle() throws InterruptedException {
 
         if (Platform.getInstance().isAndroid()){
@@ -75,6 +83,7 @@ public class ArticleTests extends CoreTestCase {
     // Важно: тест не должен дожидаться появления title, проверка должна производиться сразу.
     // Если title не найден - тест падает с ошибкой. Метод можно назвать assertElementPresent.
     @Test
+    @Description(value = "A test that opens an article and makes sure it has a title element")
     public void testOpenArticleAndMakeSureThatSheHasTitleElement() {
 
         if (Platform.getInstance().isAndroid()){

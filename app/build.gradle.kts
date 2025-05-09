@@ -1,6 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
 
+    // Allure
+    // https://plugins.gradle.org/plugin/io.qameta.allure
+
+    //noinspection GradleDependency
+    id("io.qameta.allure") version "2.12.0"
+
 }
 
 
@@ -39,6 +45,7 @@ android {
 
 }
 
+
 dependencies {
 
     implementation(libs.appcompat)
@@ -51,7 +58,10 @@ dependencies {
     implementation(libs.play.services.fido)
     implementation(libs.support.annotations)
     implementation(libs.annotation)
+    implementation(libs.ui.android)
+    implementation(libs.support.v4)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.monitor)
@@ -64,15 +74,23 @@ dependencies {
     androidTestImplementation (libs.junit.v412)
     androidTestImplementation (libs.uiautomator)
 
+    implementation(libs.io.qameta.allure.gradle.plugin)
+
+    implementation(libs.allure.kotlin.commons.test)
+
+    // Other unrelated to Allure dependencies
+    // ...
+    // AspectJ Weaver
+    runtimeOnly(libs.aspectjweaver)
+    // JUnit
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.engine)
+    // Allure
+    testImplementation(libs.allure.junit5)
+    testImplementation(libs.allure.kotlin.commons)
+
 }
 
-repositories {
-//    mavenCentral()
-//    maven {
-//        url; //"https://dl.bintray.com/qameta/maven"
-//    }
-
-}
 
 
 

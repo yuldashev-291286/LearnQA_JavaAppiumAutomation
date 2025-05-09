@@ -10,7 +10,12 @@ import com.example.javaappiumautomation.lib.ui.OnboardingPageObject;
 import com.example.javaappiumautomation.lib.ui.factories.OnboardingPageObjectFactory;
 import com.example.javaappiumautomation.lib.ui.factories.SearchPageObjectFactory;
 
+import io.qameta.allure.kotlin.Description;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Feature;
 
+@Epic("Tests for different types of text search")
+@Feature("Search tests")
 public class SearchTests extends CoreTestCase {
 
     private OnboardingPageObject onboardingPageObject;
@@ -25,6 +30,7 @@ public class SearchTests extends CoreTestCase {
 
 
     @Test
+    @Description(value = "The test checks the search for a word")
     public void testSearch(){
 
         if (Platform.getInstance().isAndroid()){
@@ -38,6 +44,7 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @Description(value = "Test cancels word search")
     public void testCancelSearch(){
 
         if (Platform.getInstance().isAndroid()){
@@ -54,6 +61,7 @@ public class SearchTests extends CoreTestCase {
 
     // Занятие 4. Учебный тест №3.
     @Test
+    @Description(value = "The test checks the number of answers found for the search")
     public void testAmountOfNotEmptySearch() throws InterruptedException {
 
         if (Platform.getInstance().isAndroid()){
@@ -80,6 +88,7 @@ public class SearchTests extends CoreTestCase {
 
     // Занятие 4. Учебный тест №4.
     @Test
+    @Description(value = "The test checks for empty search")
     public void testAmountOfEmptySearch() throws InterruptedException {
 
         if (Platform.getInstance().isAndroid()){
@@ -101,6 +110,7 @@ public class SearchTests extends CoreTestCase {
     // 1) Написать тест, который делает поиск по какому-то слову. Например, JAVA.
     // 2) Затем убеждается, что в каждом результате поиска есть это слово.
     @Test
+    @Description(value = "The test checks the word in the search results found")
     public void testCheckWordsInSearch() throws InterruptedException {
 
         if (Platform.getInstance().isAndroid()){
@@ -126,6 +136,7 @@ public class SearchTests extends CoreTestCase {
     // 3) Отменяет поиск.
     // 4) Убеждается, что результат поиска пропал
     @Test
+    @Description(value = "The test checks for search cancellation")
     public void testCheckCancelSearch() throws InterruptedException {
 
         if (Platform.getInstance().isAndroid()){
@@ -158,6 +169,7 @@ public class SearchTests extends CoreTestCase {
     // правильным вариантом следует считать тот, которые есть сейчас).
     // Очевидно, что тест должен использовать написанный ранее метод.
     @Test
+    @Description(value = "A test that checks that the input field for searching an article contains text")
     public void testCheckForExpectedText(){
 
         if (Platform.getInstance().isAndroid()){
@@ -179,6 +191,7 @@ public class SearchTests extends CoreTestCase {
     // Пример проверки одного из элементов:
     // your_page.waitForElementByTitleAndDescription("title_A","article_A_description");
     @Test
+    @Description(value = "A test that searches for any query of your choice and makes sure that the search result contains three elements")
     public void testSearchElementByHeadAndDescription() throws InterruptedException {
 
         if (Platform.getInstance().isAndroid()){
